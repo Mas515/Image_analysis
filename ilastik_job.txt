@@ -1,0 +1,11 @@
+#PBS -1 walltime=00:30:00
+#PBS -1 select=1:ncpus=8:mem=30gbgpfs=true
+
+module purge
+module load ilastik
+
+INPUT_DATA_PATH=/rds/general/user/dwitheri/home/ticket/RITM0040332/CP_example_share/11_timepoint_split_concatenated_corrected
+cp -r ${INPUT_DATA_PATH} $TMPDIR
+
+$ ./run_ilastik.sh --headless --project=221103_MK_4channel_zstack_training.ilp --output_format='multipage tiff' --output_filename_format=/tmp/results/{nickname}_results.tiff 
+--export_dtype=uint16 --pipeline_result_drange="(0.0,1.0)" --output_axis_order='zcyx' --export_drange="(0,255)" --export_source"Probabilities" ${TMPDIR}/*

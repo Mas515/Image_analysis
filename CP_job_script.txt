@@ -1,0 +1,7 @@
+#PBS -1 walltime=00:15:00
+#PBS -1 select=1:ncpus=1:mem=1gb
+
+module load cellprofiler
+
+cellprofiler -c -r -p path/221102_movievesselsegmentation_headless.cppipe -i 
+path/6_timepoint_split_drift_corrected_channel_split -o path/output_folder
