@@ -2,7 +2,7 @@ CellProfiler Pipeline: http://www.cellprofiler.org
 Version:5
 DateRevision:424
 GitHash:
-ModuleCount:15
+ModuleCount:16
 HasImagePlaneDetails:False
 
 Images:[module_num:1|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['To begin creating your project, use the Images module to compile a list of files and/or folders that you want to analyze. You can also specify a set of rules to include only the desired files in your selected folders.', '', 'corrected_movies_2_1movieexampls/movies_apply_2_splitchannels + trackmate_output_split']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
@@ -150,7 +150,12 @@ ConvertImageToObjects:[module_num:12|svn_version:'Unknown'|variable_revision_num
     Background label:0
     Connectivity:0
 
-OverlayOutlines:[module_num:13|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+MeasureObjectSizeShape:[module_num:13|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select object sets to measure:ConvertImageToObjectsAF647
+    Calculate the Zernike features?:Yes
+    Calculate the advanced features?:No
+
+OverlayOutlines:[module_num:14|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Display outlines on a blank image?:No
     Select image on which to display outlines:RescaleIntensityAF647
     Name the output image:OrigOverlayAF647
@@ -160,7 +165,7 @@ OverlayOutlines:[module_num:13|svn_version:'Unknown'|variable_revision_number:4|
     Select outline color:Red
     Select objects to display:ConvertImageToObjectsAF647
 
-ExportToSpreadsheet:[module_num:14|svn_version:'Unknown'|variable_revision_number:13|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+ExportToSpreadsheet:[module_num:15|svn_version:'Unknown'|variable_revision_number:13|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:True]
     Select the column delimiter:Comma (",")
     Add image metadata columns to your object data file?:Yes
     Add image file and folder names to your object data file?:Yes
@@ -174,7 +179,7 @@ ExportToSpreadsheet:[module_num:14|svn_version:'Unknown'|variable_revision_numbe
     Select the image to use as the identifier:None
     Select the metadata to use as the identifier:None
     Export all measurement types?:Yes
-    Press button to select measurements:Image|Metadata_Timepoint,Image|Metadata_Frame,Image|Metadata_Channelnb,Image|Metadata_Series,Image|Metadata_VWF,Image|Metadata_FileLocation,ConvertImageToObjectsAF647|Location_Center_Y,ConvertImageToObjectsAF647|Location_Center_Z,ConvertImageToObjectsAF647|Location_Center_X,ConvertImageToObjectsAF647|Number_Object_Number
+    Press button to select measurements:ConvertImageToObjectsAF647|AreaShape_BoundingBoxVolume,ConvertImageToObjectsAF647|AreaShape_MajorAxisLength,ConvertImageToObjectsAF647|AreaShape_BoundingBoxMinimum_X,ConvertImageToObjectsAF647|AreaShape_BoundingBoxMinimum_Y,ConvertImageToObjectsAF647|AreaShape_BoundingBoxMinimum_Z,ConvertImageToObjectsAF647|AreaShape_Center_Z,ConvertImageToObjectsAF647|AreaShape_Center_X,ConvertImageToObjectsAF647|AreaShape_Center_Y,ConvertImageToObjectsAF647|AreaShape_Volume,ConvertImageToObjectsAF647|AreaShape_EquivalentDiameter,ConvertImageToObjectsAF647|AreaShape_Extent,ConvertImageToObjectsAF647|AreaShape_BoundingBoxMaximum_Y,ConvertImageToObjectsAF647|AreaShape_BoundingBoxMaximum_X,ConvertImageToObjectsAF647|AreaShape_BoundingBoxMaximum_Z,ConvertImageToObjectsAF647|AreaShape_EulerNumber,ConvertImageToObjectsAF647|AreaShape_MinorAxisLength,ConvertImageToObjectsAF647|AreaShape_SurfaceArea,ConvertImageToObjectsAF647|Location_Center_X,ConvertImageToObjectsAF647|Location_Center_Y,ConvertImageToObjectsAF647|Location_Center_Z,ConvertImageToObjectsAF647|Number_Object_Number,Image|Metadata_VWF,Image|Metadata_Channelnb,Image|Metadata_Timepoint,Image|Metadata_FileLocation,Image|Metadata_Series,Image|Metadata_Frame
     Representation of Nan/Inf:NaN
     Add a prefix to file names?:Yes
     Filename prefix:MK_
@@ -184,7 +189,7 @@ ExportToSpreadsheet:[module_num:14|svn_version:'Unknown'|variable_revision_numbe
     File name:DATA.csv
     Use the object name for the file name?:Yes
 
-SaveImages:[module_num:15|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+SaveImages:[module_num:16|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Select the type of image to save:Image
     Select the image to save:OrigOverlayAF647
     Select method for constructing file names:From image filename
