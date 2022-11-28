@@ -1,0 +1,953 @@
+CellProfiler Pipeline: http://www.cellprofiler.org
+Version:5
+DateRevision:421
+GitHash:
+ModuleCount:71
+HasImagePlaneDetails:False
+
+Images:[module_num:1|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['To begin creating your project, use the Images module to compile a list of files and/or folders that you want to analyze. You can also specify a set of rules to include only the desired files in your selected folders.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    :
+    Filter images?:Custom
+    Select the rule criteria:or (file does endwith ".tif") (file does endwith ".tiff")
+
+Metadata:[module_num:2|svn_version:'Unknown'|variable_revision_number:6|show_window:False|notes:['The Metadata module optionally allows you to extract information describing your images (i.e, metadata) which will be stored along with your measurements. This information can be contained in the file name and/or location, or in an external file.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Extract metadata?:Yes
+    Metadata data type:Text
+    Metadata types:{}
+    Extraction method count:1
+    Metadata extraction method:Extract from file/folder names
+    Metadata source:File name
+    Regular expression to extract from file name:^(?P<VWF>.*)_Ch(?P<Channelnb>.*).ti(?P<Format>.*)
+    Regular expression to extract from folder name:(?P<Date>[0-9]{4}_[0-9]{2}_[0-9]{2})$
+    Extract metadata from:All images
+    Select the filtering criteria:and (file does contain "Ch5")
+    Metadata file location:Elsewhere...|
+    Match file and image metadata:[]
+    Use case insensitive matching?:No
+    Metadata file name:None
+    Does cached metadata exist?:Yes
+
+NamesAndTypes:[module_num:3|svn_version:'Unknown'|variable_revision_number:8|show_window:False|notes:['The NamesAndTypes module allows you to assign a meaningful name to each image by which other modules will refer to it.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Assign a name to:Images matching rules
+    Select the image type:Grayscale image
+    Name to assign these images:VWF_067_test
+    Match metadata:[{'AF647': 'VWF', 'Autofluo': 'VWF', 'GFP': 'VWF', 'Ilastik': 'VWF', 'KUO': 'VWF'}]
+    Image set matching method:Metadata
+    Set intensity range from:Image metadata
+    Assignments count:5
+    Single images count:0
+    Maximum intensity:255.0
+    Process as 3D?:Yes
+    Relative pixel spacing in X:0.8286
+    Relative pixel spacing in Y:0.8286
+    Relative pixel spacing in Z:3
+    Select the rule criteria:and (metadata does Channelnb "1")
+    Name to assign these images:GFP
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channelnb "2")
+    Name to assign these images:AF647
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channelnb "3")
+    Name to assign these images:KUO
+    Name to assign these objects:Nucleus
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channelnb "4")
+    Name to assign these images:Autofluo
+    Name to assign these objects:Cytoplasm
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channelnb "5")
+    Name to assign these images:Ilastik
+    Name to assign these objects:Cytoplasm
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+
+Groups:[module_num:4|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['The Groups module optionally allows you to split your list of images into image subsets (groups) which will be processed independently of each other. Examples of groupings include screening batches, microtiter plates, time-lapse movies, etc.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Do you want to group your images?:Yes
+    grouping metadata count:1
+    Metadata category:VWF
+
+Resize:[module_num:5|svn_version:'Unknown'|variable_revision_number:4|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Select the input image:Autofluo
+    Name the output image:ResizeAutofluo
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:0.25
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Nearest Neighbor
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:3
+    Select the additional image?:KUO
+    Name the output image:ResizedKUO
+    Select the additional image?:GFP
+    Name the output image:ResizedGFP
+    Select the additional image?:AF647
+    Name the output image:ResizedAF647
+
+ImageMath:[module_num:6|svn_version:'Unknown'|variable_revision_number:5|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Operation:None
+    Raise the power of the result by:0.75
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:ImageAfterMathautofluo
+    Image or measurement?:Image
+    Select the first image:ResizeAutofluo
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:None
+    Multiply the second image by:1.0
+    Measurement:
+
+MeasureImageIntensity:[module_num:7|svn_version:'Unknown'|variable_revision_number:4|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Select images to measure:GaussianFilterautofluo
+    Measure the intensity only from areas enclosed by objects?:No
+    Select input object sets:
+    Calculate custom percentiles:No
+    Specify percentiles to measure:10,90
+
+Threshold:[module_num:8|svn_version:'Unknown'|variable_revision_number:12|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Select the input image:GaussianFilterautofluo
+    Name the output image:Thresholdimage
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:0.0
+    Threshold correction factor:0.9
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:Intensity_MaxIntensity_GaussianFilterautofluo
+    Two-class or three-class thresholding?:Three classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Minimum Cross-Entropy
+
+MaskImage:[module_num:9|svn_version:'Unknown'|variable_revision_number:3|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Select the input image:GaussianFilterautofluo
+    Name the output image:Autofluotiles
+    Use objects or an image as a mask?:Image
+    Select object for mask:None
+    Select image for mask:Thresholdimage
+    Invert the mask?:No
+
+Threshold:[module_num:10|svn_version:'Unknown'|variable_revision_number:12|show_window:True|notes:['use the imaged where all the autofluorescent cells have been removed to generate the threshold? ']|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Select the input image:Autofluotiles
+    Name the output image:Thresholdedbone
+    Threshold strategy:Global
+    Thresholding method:Robust Background
+    Threshold smoothing scale:0.0
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:Intensity_TotalArea_GaussianFilterautofluo
+    Two-class or three-class thresholding?:Two classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.15
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Minimum Cross-Entropy
+
+MaskImage:[module_num:11|svn_version:'Unknown'|variable_revision_number:3|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Select the input image:GaussianFilterautofluo
+    Name the output image:Bonemarrow
+    Use objects or an image as a mask?:Image
+    Select object for mask:None
+    Select image for mask:Thresholdedbone
+    Invert the mask?:Yes
+
+ImageMath:[module_num:12|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Operation:Invert
+    Raise the power of the result by:1.0
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:Bonemarrow
+    Image or measurement?:Image
+    Select the first image:Autofluotiles
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:None
+    Multiply the second image by:1.0
+    Measurement:
+
+ConvertImageToObjects:[module_num:13|svn_version:'Unknown'|variable_revision_number:1|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Select the input image:Bonemarrow
+    Name the output object:ConvertImageToObjectsBoneMarrow
+    Convert to boolean image:No
+    Preserve original labels:Yes
+    Background label:0
+    Connectivity:0
+
+OverlayOutlines:[module_num:14|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Display outlines on a blank image?:No
+    Select image on which to display outlines:Ilastik
+    Name the output image:BM_Ilastik_Overlay
+    Outline display mode:Color
+    Select method to determine brightness of outlines:Max of image
+    How to outline:Thick
+    Select outline color:Red
+    Select objects to display:ConvertImageToObjectsBoneMarrow
+
+Threshold:[module_num:15|svn_version:'Unknown'|variable_revision_number:12|show_window:False|notes:['This module was to threshold the Ilastik Images', 'was minimum cross entropy with smoothing of 3 and correction of 3.5', '', 'was Ostu 2 classes threshold correction of 3.5']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Ilastik
+    Name the output image:ThresholdIlastik
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:1
+    Threshold correction factor:1
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:Intensity_MaxIntensity_GaussianFilterautofluo
+    Two-class or three-class thresholding?:Two classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Minimum Cross-Entropy
+
+ConvertImageToObjects:[module_num:16|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:ThresholdIlastik
+    Name the output object:ConvertImageToObjectsIlastik
+    Convert to boolean image:Yes
+    Preserve original labels:Yes
+    Background label:0
+    Connectivity:0
+
+FillObjects:[module_num:17|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input object:ConvertImageToObjectsIlastik
+    Name the output object:FillObjectsIlastik
+    Minimum hole size:50
+    Planewise fill:Yes
+
+MeasureObjectSizeShape:[module_num:18|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:['BONE MARROW VOLUME']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select object sets to measure:ConvertImageToObjectsIlastik, FillObjectsIlastik
+    Calculate the Zernike features?:No
+    Calculate the advanced features?:No
+
+OverlayObjects:[module_num:19|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Input:None
+    Name the output image:OverlayObjects
+    Objects:Do not use
+    Opacity:0.3
+
+ImageMath:[module_num:20|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Operation:None
+    Raise the power of the result by:0.9
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:ImageAfterMathKUO
+    Image or measurement?:Image
+    Select the first image:KUO
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:None
+    Multiply the second image by:1.0
+    Measurement:
+
+Threshold:[module_num:21|svn_version:'Unknown'|variable_revision_number:12|show_window:False|notes:['Thresholding to exclude the bright autofluorescent background, threshold is including some pixels in the marrow (not high enough) yet it is not including everything on the edges (too high) ']|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Select the input image:ImageAfterMathKUO
+    Name the output image:BackgroundThresholdKUO
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:0.0
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.03,1
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Three classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Minimum Cross-Entropy
+
+ImageMath:[module_num:22|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Operation:None
+    Raise the power of the result by:0.8
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:ImageAfterMathAF647
+    Image or measurement?:Image
+    Select the first image:AF647
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:None
+    Multiply the second image by:1.0
+    Measurement:
+
+HistogramEqualization:[module_num:23|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:ImageAfterMathAF647
+    Name the output image:HistogramEqualizationAF647
+    Bins:256
+    Mask:Leave blank
+    Local:Yes
+    Tile Size:50
+    Clip limit:0.01
+    Is you image 3D?:No
+    Do framewise calculation?:No
+    Tile Size (Z):5
+
+GaussianFilter:[module_num:24|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:HistogramEqualizationAF647
+    Name the output image:GaussianFilterAF647
+    Sigma:2
+
+Threshold:[module_num:25|svn_version:'Unknown'|variable_revision_number:12|show_window:False|notes:['Ostu 3 classes, foreground no smoothing 1.5 correction']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:GaussianFilterAF647
+    Name the output image:ThresholdAF647
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:0.0
+    Threshold correction factor:2.6
+    Lower and upper bounds on threshold:0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Three classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Minimum Cross-Entropy
+
+RemoveHoles:[module_num:26|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:ThresholdAF647
+    Name the output image:RemoveHolesAF647
+    Size of holes to fill:20
+
+ConvertImageToObjects:[module_num:27|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:RemoveHolesAF647
+    Name the output object:WatershedAF647
+    Convert to boolean image:Yes
+    Preserve original labels:No
+    Background label:0
+    Connectivity:0
+
+GaussianFilter:[module_num:28|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:GFP
+    Name the output image:GaussianFilterGFP
+    Sigma:2
+
+HistogramEqualization:[module_num:29|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:GaussianFilterGFP
+    Name the output image:HistogramEqualizationGFP
+    Bins:350
+    Mask:Leave blank
+    Local:Yes
+    Tile Size:50
+    Clip limit:0.01
+    Is you image 3D?:Yes
+    Do framewise calculation?:No
+    Tile Size (Z):5
+
+Threshold:[module_num:30|svn_version:'Unknown'|variable_revision_number:12|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:HistogramEqualizationGFP
+    Name the output image:ThresholdGFP
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:0.0
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.03,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Three classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Minimum Cross-Entropy
+
+RemoveHoles:[module_num:31|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:ThresholdGFP
+    Name the output image:RemoveHolesGFP
+    Size of holes to fill:20
+
+Watershed:[module_num:32|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:RemoveHolesGFP
+    Name the output object:WatershedGFP
+    Use advanced settings?:No
+    Generate from:Distance
+    Markers:None
+    Mask:Leave blank
+    Connectivity:1
+    Compactness:0.0
+    Footprint:10
+    Downsample:2
+    Separate watershed labels:No
+    Declump method:Shape
+    Reference Image:None
+    Segmentation distance transform smoothing factor:1.0
+    Minimum distance between seeds:1
+    Minimum absolute internal distance:0.0
+    Pixels from border to exclude:0
+    Maximum number of seeds:-1
+    Structuring element for seed dilation:Disk,1
+
+MeasureObjectSizeShape:[module_num:33|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select object sets to measure:WatershedGFP
+    Calculate the Zernike features?:Yes
+    Calculate the advanced features?:No
+
+FilterObjects:[module_num:34|svn_version:'Unknown'|variable_revision_number:9|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the objects to filter:WatershedGFP
+    Name the output objects:FilterObjectsMK
+    Select the filtering mode:Measurements
+    Select the filtering method:Limits
+    Select the objects that contain the filtered objects:None
+    Select the location of the rules or classifier file:Elsewhere...|
+    Rules or classifier file name:rules.txt
+    Class number:1
+    Measurement count:1
+    Additional object count:0
+    Assign overlapping child to:Both parents
+    Keep removed objects as a seperate set?:Yes
+    Name the objects removed by the filter:RemovedObjectsMKprogenitors
+    Select the measurement to filter by:AreaShape_Volume
+    Filter using a minimum measurement value?:Yes
+    Minimum value:2500
+    Filter using a maximum measurement value?:No
+    Maximum value:1.0
+
+ImageMath:[module_num:35|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Operation:Add
+    Raise the power of the result by:1.0
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:ImageAfterMathBM2
+    Image or measurement?:Image
+    Select the first image:ThresholdIlastik
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:RemoveHolesAF647
+    Multiply the second image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the third image:RemoveHolesGFP
+    Multiply the third image by:1.0
+    Measurement:
+
+ConvertImageToObjects:[module_num:36|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Select the input image:ImageAfterMathBM2
+    Name the output object:ObjectBM2
+    Convert to boolean image:Yes
+    Preserve original labels:No
+    Background label:0
+    Connectivity:0
+
+GaussianFilter:[module_num:37|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Autofluo
+    Name the output image:GaussianFilterautofluo
+    Sigma:3
+
+GaussianFilter:[module_num:38|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:KUO
+    Name the output image:GaussianFilterKUO
+    Sigma:3
+
+ImageMath:[module_num:39|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Operation:Subtract
+    Raise the power of the result by:1
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:ImageAfterMathKUOautofluo
+    Image or measurement?:Image
+    Select the first image:GaussianFilterKUO
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:GaussianFilterautofluo
+    Multiply the second image by:1.3
+    Measurement:
+
+Threshold:[module_num:40|svn_version:'Unknown'|variable_revision_number:12|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:ImageAfterMathKUOautofluo
+    Name the output image:ThresholdedKUO
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:0
+    Threshold correction factor:0.8
+    Lower and upper bounds on threshold:0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Minimum Cross-Entropy
+
+RemoveHoles:[module_num:41|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:ThresholdedKUO
+    Name the output image:RemoveHolesKUO
+    Size of holes to fill:10
+
+Watershed:[module_num:42|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:RemoveHolesKUO
+    Name the output object:WatershedKUO
+    Use advanced settings?:No
+    Generate from:Distance
+    Markers:None
+    Mask:Leave blank
+    Connectivity:1
+    Compactness:0.0
+    Footprint:10
+    Downsample:2
+    Separate watershed labels:No
+    Declump method:Shape
+    Reference Image:None
+    Segmentation distance transform smoothing factor:1.0
+    Minimum distance between seeds:1
+    Minimum absolute internal distance:0.0
+    Pixels from border to exclude:0
+    Maximum number of seeds:-1
+    Structuring element for seed dilation:Ball,1
+
+MeasureObjectSizeShape:[module_num:43|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select object sets to measure:WatershedKUO
+    Calculate the Zernike features?:Yes
+    Calculate the advanced features?:No
+
+Threshold:[module_num:44|svn_version:'Unknown'|variable_revision_number:12|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:GaussianFilterautofluo
+    Name the output image:ThresholdAutofluo
+    Threshold strategy:Global
+    Thresholding method:Robust Background
+    Threshold smoothing scale:0.0
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:4
+    Thresholding method:Minimum Cross-Entropy
+
+MeasureObjectIntensity:[module_num:45|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:ThresholdAutofluo, ThresholdIlastik
+    Select objects to measure:WatershedKUO
+
+FilterObjects:[module_num:46|svn_version:'Unknown'|variable_revision_number:9|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the objects to filter:WatershedKUO
+    Name the output objects:FilterObjectsKUO
+    Select the filtering mode:Measurements
+    Select the filtering method:Limits
+    Select the objects that contain the filtered objects:None
+    Select the location of the rules or classifier file:Elsewhere...|
+    Rules or classifier file name:rules.txt
+    Class number:1
+    Measurement count:3
+    Additional object count:0
+    Assign overlapping child to:Both parents
+    Keep removed objects as a seperate set?:No
+    Name the objects removed by the filter:RemovedObjects
+    Select the measurement to filter by:AreaShape_Volume
+    Filter using a minimum measurement value?:Yes
+    Minimum value:300
+    Filter using a maximum measurement value?:Yes
+    Maximum value:2500
+    Select the measurement to filter by:Intensity_UpperQuartileIntensity_ThresholdAutofluo
+    Filter using a minimum measurement value?:No
+    Minimum value:1
+    Filter using a maximum measurement value?:Yes
+    Maximum value:0.8
+    Select the measurement to filter by:Intensity_UpperQuartileIntensity_ThresholdIlastik
+    Filter using a minimum measurement value?:Yes
+    Minimum value:1
+    Filter using a maximum measurement value?:No
+    Maximum value:1.0
+
+ImageMath:[module_num:47|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Operation:Multiply
+    Raise the power of the result by:1.0
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:ImageAfterMathDP
+    Image or measurement?:Image
+    Select the first image:RemoveHolesKUO
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:RemoveHolesGFP
+    Multiply the second image by:1.0
+    Measurement:
+
+MeasureObjectIntensity:[module_num:48|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:ImageAfterMathDP
+    Select objects to measure:FilterObjectsKUO
+
+FilterObjects:[module_num:49|svn_version:'Unknown'|variable_revision_number:9|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the objects to filter:FilterObjectsKUO
+    Name the output objects:FilterObjectsDP
+    Select the filtering mode:Measurements
+    Select the filtering method:Limits
+    Select the objects that contain the filtered objects:None
+    Select the location of the rules or classifier file:Elsewhere...|
+    Rules or classifier file name:rules.txt
+    Class number:1
+    Measurement count:1
+    Additional object count:0
+    Assign overlapping child to:Both parents
+    Keep removed objects as a seperate set?:Yes
+    Name the objects removed by the filter:RemovedObjectsSP
+    Select the measurement to filter by:Intensity_MeanIntensity_ImageAfterMathDP
+    Filter using a minimum measurement value?:Yes
+    Minimum value:0.5
+    Filter using a maximum measurement value?:No
+    Maximum value:1.0
+
+MeasureObjectSizeShape:[module_num:50|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select object sets to measure:ConvertImageToObjectsIlastik, FilterObjectsDP, FilterObjectsMK, RemovedObjectsMKprogenitors, RemovedObjectsSP, WatershedAF647
+    Calculate the Zernike features?:Yes
+    Calculate the advanced features?:No
+
+OverlayOutlines:[module_num:51|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Display outlines on a blank image?:No
+    Select image on which to display outlines:HistogramEqualizationGFP
+    Name the output image:OrigOverlayGFP
+    Outline display mode:Color
+    Select method to determine brightness of outlines:Max of image
+    How to outline:Thick
+    Select outline color:Red
+    Select objects to display:WatershedAF647
+    Select outline color:Green
+    Select objects to display:WatershedGFP
+    Select outline color:Blue
+    Select objects to display:RemovedObjectsSP
+    Select outline color:Yellow
+    Select objects to display:FilterObjectsDP
+    Select outline color:White
+    Select objects to display:ConvertImageToObjectsIlastik
+
+SaveImages:[module_num:52|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:OrigOverlayGFP
+    Select method for constructing file names:From image filename
+    Select image name for file prefix:GFP
+    Enter single file name:OrigBlue
+    Number of digits:4
+    Append a suffix to the image file name?:Yes
+    Text to append to the image name:seg
+    Saved file format:tiff
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Every cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+    Save with lossless compression?:Yes
+
+Watershed:[module_num:53|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Select the input image:RemoveHolesAF647
+    Name the output object:WatershedAF647
+    Use advanced settings?:No
+    Generate from:Distance
+    Markers:None
+    Mask:Leave blank
+    Connectivity:1
+    Compactness:0.0
+    Footprint:10
+    Downsample:2
+    Separate watershed labels:No
+    Declump method:Shape
+    Reference Image:None
+    Segmentation distance transform smoothing factor:1.0
+    Minimum distance between seeds:1
+    Minimum absolute internal distance:0.0
+    Pixels from border to exclude:0
+    Maximum number of seeds:-1
+    Structuring element for seed dilation:Disk,1
+
+ConvertObjectsToImage:[module_num:54|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input objects:FilterObjectsMK
+    Name the output image:CellImageMK
+    Select the color format:Binary (black & white)
+    Select the colormap:Default
+
+ImageMath:[module_num:55|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Operation:Invert
+    Raise the power of the result by:1.0
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:ImageAfterMathMK
+    Image or measurement?:Image
+    Select the first image:CellImageMK
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:None
+    Multiply the second image by:1.0
+    Measurement:
+
+DistanceTransform:[module_num:56|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:ImageAfterMathMK
+    Name the output image:DistanceTransformMK
+    Rescale values from 0 to 1?:No
+
+ConvertObjectsToImage:[module_num:57|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input objects:RemovedObjectsMKprogenitors
+    Name the output image:CellImageMKprog
+    Select the color format:Binary (black & white)
+    Select the colormap:Default
+
+ImageMath:[module_num:58|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Operation:Invert
+    Raise the power of the result by:1.0
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:ImageAfterMathMKprog
+    Image or measurement?:Image
+    Select the first image:CellImageMKprog
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:None
+    Multiply the second image by:1.0
+    Measurement:
+
+DistanceTransform:[module_num:59|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:ImageAfterMathMKprog
+    Name the output image:DistanceTransformMKprog
+    Rescale values from 0 to 1?:No
+
+ImageMath:[module_num:60|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Operation:Invert
+    Raise the power of the result by:1.0
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:ImageAfterMathvessel
+    Image or measurement?:Image
+    Select the first image:RemoveHolesAF647
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:None
+    Multiply the second image by:1.0
+    Measurement:
+
+DistanceTransform:[module_num:61|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:ImageAfterMathvessel
+    Name the output image:DistanceTransformvessel
+    Rescale values from 0 to 1?:Yes
+
+MeasureObjectIntensity:[module_num:62|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:AF647, Autofluo, DistanceTransformMK, DistanceTransformMKprog, DistanceTransformvessel, GFP, KUO
+    Select objects to measure:FilterObjectsDP, FilterObjectsMK, RemovedObjectsMKprogenitors, RemovedObjectsSP, WatershedAF647
+
+MeasureObjectNeighbors:[module_num:63|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select objects to measure:FilterObjectsDP
+    Select neighboring objects to measure:FilterObjectsMK
+    Method to determine neighbors:Within a specified distance
+    Neighbor distance:30
+    Consider objects discarded for touching image border?:Yes
+    Retain the image of objects colored by numbers of neighbors?:No
+    Name the output image:ObjectNeighborCount
+    Select colormap:Blues
+    Retain the image of objects colored by percent of touching pixels?:No
+    Name the output image:PercentTouching
+    Select colormap:Oranges
+
+MeasureObjectNeighbors:[module_num:64|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select objects to measure:FilterObjectsDP
+    Select neighboring objects to measure:RemovedObjectsMKprogenitors
+    Method to determine neighbors:Within a specified distance
+    Neighbor distance:30
+    Consider objects discarded for touching image border?:Yes
+    Retain the image of objects colored by numbers of neighbors?:No
+    Name the output image:ObjectNeighborCount
+    Select colormap:Blues
+    Retain the image of objects colored by percent of touching pixels?:No
+    Name the output image:PercentTouching
+    Select colormap:Oranges
+
+MeasureObjectNeighbors:[module_num:65|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select objects to measure:RemovedObjectsSP
+    Select neighboring objects to measure:FilterObjectsMK
+    Method to determine neighbors:Within a specified distance
+    Neighbor distance:30
+    Consider objects discarded for touching image border?:Yes
+    Retain the image of objects colored by numbers of neighbors?:No
+    Name the output image:ObjectNeighborCount
+    Select colormap:Blues
+    Retain the image of objects colored by percent of touching pixels?:No
+    Name the output image:PercentTouching
+    Select colormap:Oranges
+
+MeasureObjectNeighbors:[module_num:66|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select objects to measure:RemovedObjectsSP
+    Select neighboring objects to measure:RemovedObjectsMKprogenitors
+    Method to determine neighbors:Within a specified distance
+    Neighbor distance:30
+    Consider objects discarded for touching image border?:Yes
+    Retain the image of objects colored by numbers of neighbors?:No
+    Name the output image:ObjectNeighborCount
+    Select colormap:Blues
+    Retain the image of objects colored by percent of touching pixels?:No
+    Name the output image:PercentTouching
+    Select colormap:Oranges
+
+MeasureObjectNeighbors:[module_num:67|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select objects to measure:FilterObjectsDP
+    Select neighboring objects to measure:WatershedAF647
+    Method to determine neighbors:Within a specified distance
+    Neighbor distance:30
+    Consider objects discarded for touching image border?:Yes
+    Retain the image of objects colored by numbers of neighbors?:No
+    Name the output image:ObjectNeighborCount
+    Select colormap:Blues
+    Retain the image of objects colored by percent of touching pixels?:No
+    Name the output image:PercentTouching
+    Select colormap:Oranges
+
+MeasureObjectNeighbors:[module_num:68|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select objects to measure:RemovedObjectsSP
+    Select neighboring objects to measure:WatershedAF647
+    Method to determine neighbors:Within a specified distance
+    Neighbor distance:30
+    Consider objects discarded for touching image border?:Yes
+    Retain the image of objects colored by numbers of neighbors?:No
+    Name the output image:ObjectNeighborCount
+    Select colormap:Blues
+    Retain the image of objects colored by percent of touching pixels?:No
+    Name the output image:PercentTouching
+    Select colormap:Oranges
+
+ExportToSpreadsheet:[module_num:69|svn_version:'Unknown'|variable_revision_number:13|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the column delimiter:Comma (",")
+    Add image metadata columns to your object data file?:Yes
+    Add image file and folder names to your object data file?:Yes
+    Select the measurements to export:Yes
+    Calculate the per-image mean values for object measurements?:No
+    Calculate the per-image median values for object measurements?:No
+    Calculate the per-image standard deviation values for object measurements?:No
+    Output file location:Default Output Folder|Downloads/CellProfiler/TilescanKuO
+    Create a GenePattern GCT file?:No
+    Select source of sample row name:Metadata
+    Select the image to use as the identifier:None
+    Select the metadata to use as the identifier:None
+    Export all measurement types?:Yes
+    Press button to select measurements:WatershedAF647|Intensity_MaxIntensityEdge_KUO,WatershedAF647|Intensity_MaxIntensityEdge_GFP,WatershedAF647|Intensity_MaxIntensityEdge_Autofluo,WatershedAF647|Intensity_MaxIntensityEdge_AF647,WatershedAF647|Intensity_IntegratedIntensity_Autofluo,WatershedAF647|Intensity_IntegratedIntensity_GFP,WatershedAF647|Intensity_IntegratedIntensity_AF647,WatershedAF647|Intensity_IntegratedIntensity_KUO,WatershedAF647|Intensity_MeanIntensity_GFP,WatershedAF647|Intensity_MeanIntensity_AF647,WatershedAF647|Intensity_MeanIntensity_KUO,WatershedAF647|Intensity_MeanIntensity_Autofluo,WatershedAF647|Intensity_StdIntensity_KUO,WatershedAF647|Intensity_StdIntensity_GFP,WatershedAF647|Intensity_StdIntensity_AF647,WatershedAF647|Intensity_StdIntensity_Autofluo,WatershedAF647|Intensity_MinIntensityEdge_AF647,WatershedAF647|Intensity_MinIntensityEdge_KUO,WatershedAF647|Intensity_MinIntensityEdge_GFP,WatershedAF647|Intensity_MinIntensityEdge_Autofluo,WatershedAF647|Intensity_MeanIntensityEdge_KUO,WatershedAF647|Intensity_MeanIntensityEdge_AF647,WatershedAF647|Intensity_MeanIntensityEdge_Autofluo,WatershedAF647|Intensity_MeanIntensityEdge_GFP,WatershedAF647|Intensity_MADIntensity_KUO,WatershedAF647|Intensity_MADIntensity_Autofluo,WatershedAF647|Intensity_MADIntensity_GFP,WatershedAF647|Intensity_MADIntensity_AF647,WatershedAF647|Intensity_UpperQuartileIntensity_Autofluo,WatershedAF647|Intensity_UpperQuartileIntensity_KUO,WatershedAF647|Intensity_UpperQuartileIntensity_GFP,WatershedAF647|Intensity_UpperQuartileIntensity_AF647,WatershedAF647|Intensity_MedianIntensity_AF647,WatershedAF647|Intensity_MedianIntensity_Autofluo,WatershedAF647|Intensity_MedianIntensity_GFP,WatershedAF647|Intensity_MedianIntensity_KUO,WatershedAF647|Intensity_MaxIntensity_GFP,WatershedAF647|Intensity_MaxIntensity_Autofluo,WatershedAF647|Intensity_MaxIntensity_AF647,WatershedAF647|Intensity_MaxIntensity_KUO,WatershedAF647|Intensity_IntegratedIntensityEdge_Autofluo,WatershedAF647|Intensity_IntegratedIntensityEdge_KUO,WatershedAF647|Intensity_IntegratedIntensityEdge_GFP,WatershedAF647|Intensity_IntegratedIntensityEdge_AF647,WatershedAF647|Intensity_StdIntensityEdge_Autofluo,WatershedAF647|Intensity_StdIntensityEdge_AF647,WatershedAF647|Intensity_StdIntensityEdge_GFP,WatershedAF647|Intensity_StdIntensityEdge_KUO,WatershedAF647|Intensity_MassDisplacement_AF647,WatershedAF647|Intensity_MassDisplacement_Autofluo,WatershedAF647|Intensity_MassDisplacement_GFP,WatershedAF647|Intensity_MassDisplacement_KUO,WatershedAF647|Intensity_LowerQuartileIntensity_KUO,WatershedAF647|Intensity_LowerQuartileIntensity_AF647,WatershedAF647|Intensity_LowerQuartileIntensity_GFP,WatershedAF647|Intensity_LowerQuartileIntensity_Autofluo,WatershedAF647|Intensity_MinIntensity_Autofluo,WatershedAF647|Intensity_MinIntensity_KUO,WatershedAF647|Intensity_MinIntensity_GFP,WatershedAF647|Intensity_MinIntensity_AF647,WatershedAF647|Location_CenterMassIntensity_Z_GFP,WatershedAF647|Location_CenterMassIntensity_Z_KUO,WatershedAF647|Location_CenterMassIntensity_Z_Autofluo,WatershedAF647|Location_CenterMassIntensity_Z_AF647,WatershedAF647|Location_CenterMassIntensity_X_Autofluo,WatershedAF647|Location_CenterMassIntensity_X_GFP,WatershedAF647|Location_CenterMassIntensity_X_AF647,WatershedAF647|Location_CenterMassIntensity_X_KUO,WatershedAF647|Location_CenterMassIntensity_Y_KUO,WatershedAF647|Location_CenterMassIntensity_Y_Autofluo,WatershedAF647|Location_CenterMassIntensity_Y_AF647,WatershedAF647|Location_CenterMassIntensity_Y_GFP,WatershedAF647|Location_MaxIntensity_X_Autofluo,WatershedAF647|Location_MaxIntensity_X_KUO,WatershedAF647|Location_MaxIntensity_X_GFP,WatershedAF647|Location_MaxIntensity_X_AF647,WatershedAF647|Location_MaxIntensity_Y_KUO,WatershedAF647|Location_MaxIntensity_Y_Autofluo,WatershedAF647|Location_MaxIntensity_Y_GFP,WatershedAF647|Location_MaxIntensity_Y_AF647,WatershedAF647|Location_MaxIntensity_Z_AF647,WatershedAF647|Location_MaxIntensity_Z_KUO,WatershedAF647|Location_MaxIntensity_Z_GFP,WatershedAF647|Location_MaxIntensity_Z_Autofluo,WatershedAF647|Location_Center_X,WatershedAF647|Location_Center_Z,WatershedAF647|Location_Center_Y,WatershedAF647|AreaShape_BoundingBoxVolume,WatershedAF647|AreaShape_Center_Z,WatershedAF647|AreaShape_Center_Y,WatershedAF647|AreaShape_Center_X,WatershedAF647|AreaShape_BoundingBoxMaximum_Z,WatershedAF647|AreaShape_BoundingBoxMaximum_X,WatershedAF647|AreaShape_BoundingBoxMaximum_Y,WatershedAF647|AreaShape_MinorAxisLength,WatershedAF647|AreaShape_Volume,WatershedAF647|AreaShape_SurfaceArea,WatershedAF647|AreaShape_EquivalentDiameter,WatershedAF647|AreaShape_EulerNumber,WatershedAF647|AreaShape_BoundingBoxMinimum_Z,WatershedAF647|AreaShape_BoundingBoxMinimum_X,WatershedAF647|AreaShape_BoundingBoxMinimum_Y,WatershedAF647|AreaShape_Extent,WatershedAF647|AreaShape_MajorAxisLength,WatershedAF647|Number_Object_Number,FilterObjectsMK|Location_CenterMassIntensity_Z_DistanceTransformMKprog,FilterObjectsMK|Location_CenterMassIntensity_Z_KUO,FilterObjectsMK|Location_CenterMassIntensity_Z_Autofluo,FilterObjectsMK|Location_CenterMassIntensity_Z_GFP,FilterObjectsMK|Location_CenterMassIntensity_Z_DistanceTransformMK,FilterObjectsMK|Location_CenterMassIntensity_Z_AF647,FilterObjectsMK|Location_CenterMassIntensity_Z_DistanceTransformvessel,FilterObjectsMK|Location_CenterMassIntensity_X_GFP,FilterObjectsMK|Location_CenterMassIntensity_X_DistanceTransformMK,FilterObjectsMK|Location_CenterMassIntensity_X_KUO,FilterObjectsMK|Location_CenterMassIntensity_X_Autofluo,FilterObjectsMK|Location_CenterMassIntensity_X_AF647,FilterObjectsMK|Location_CenterMassIntensity_X_DistanceTransformMKprog,FilterObjectsMK|Location_CenterMassIntensity_X_DistanceTransformvessel,FilterObjectsMK|Location_CenterMassIntensity_Y_KUO,FilterObjectsMK|Location_CenterMassIntensity_Y_Autofluo,FilterObjectsMK|Location_CenterMassIntensity_Y_DistanceTransformMKprog,FilterObjectsMK|Location_CenterMassIntensity_Y_DistanceTransformMK,FilterObjectsMK|Location_CenterMassIntensity_Y_GFP,FilterObjectsMK|Location_CenterMassIntensity_Y_DistanceTransformvessel,FilterObjectsMK|Location_CenterMassIntensity_Y_AF647,FilterObjectsMK|Location_MaxIntensity_Y_DistanceTransformMK,FilterObjectsMK|Location_MaxIntensity_Y_DistanceTransformMKprog,FilterObjectsMK|Location_MaxIntensity_Y_GFP,FilterObjectsMK|Location_MaxIntensity_Y_DistanceTransformvessel,FilterObjectsMK|Location_MaxIntensity_Y_AF647,FilterObjectsMK|Location_MaxIntensity_Y_KUO,FilterObjectsMK|Location_MaxIntensity_Y_Autofluo,FilterObjectsMK|Location_MaxIntensity_X_AF647,FilterObjectsMK|Location_MaxIntensity_X_DistanceTransformMKprog,FilterObjectsMK|Location_MaxIntensity_X_GFP,FilterObjectsMK|Location_MaxIntensity_X_KUO,FilterObjectsMK|Location_MaxIntensity_X_DistanceTransformMK,FilterObjectsMK|Location_MaxIntensity_X_Autofluo,FilterObjectsMK|Location_MaxIntensity_X_DistanceTransformvessel,FilterObjectsMK|Location_MaxIntensity_Z_KUO,FilterObjectsMK|Location_MaxIntensity_Z_AF647,FilterObjectsMK|Location_MaxIntensity_Z_DistanceTransformvessel,FilterObjectsMK|Location_MaxIntensity_Z_Autofluo,FilterObjectsMK|Location_MaxIntensity_Z_GFP,FilterObjectsMK|Location_MaxIntensity_Z_DistanceTransformMK,FilterObjectsMK|Location_MaxIntensity_Z_DistanceTransformMKprog,FilterObjectsMK|Location_Center_X,FilterObjectsMK|Location_Center_Z,FilterObjectsMK|Location_Center_Y,FilterObjectsMK|Intensity_MeanIntensityEdge_KUO,FilterObjectsMK|Intensity_MeanIntensityEdge_Autofluo,FilterObjectsMK|Intensity_MeanIntensityEdge_GFP,FilterObjectsMK|Intensity_MeanIntensityEdge_DistanceTransformvessel,FilterObjectsMK|Intensity_MeanIntensityEdge_AF647,FilterObjectsMK|Intensity_MeanIntensityEdge_DistanceTransformMKprog,FilterObjectsMK|Intensity_MeanIntensityEdge_DistanceTransformMK,FilterObjectsMK|Intensity_MaxIntensity_GFP,FilterObjectsMK|Intensity_MaxIntensity_DistanceTransformMK,FilterObjectsMK|Intensity_MaxIntensity_Autofluo,FilterObjectsMK|Intensity_MaxIntensity_DistanceTransformMKprog,FilterObjectsMK|Intensity_MaxIntensity_KUO,FilterObjectsMK|Intensity_MaxIntensity_AF647,FilterObjectsMK|Intensity_MaxIntensity_DistanceTransformvessel,FilterObjectsMK|Intensity_MinIntensityEdge_DistanceTransformMKprog,FilterObjectsMK|Intensity_MinIntensityEdge_DistanceTransformvessel,FilterObjectsMK|Intensity_MinIntensityEdge_AF647,FilterObjectsMK|Intensity_MinIntensityEdge_GFP,FilterObjectsMK|Intensity_MinIntensityEdge_DistanceTransformMK,FilterObjectsMK|Intensity_MinIntensityEdge_KUO,FilterObjectsMK|Intensity_MinIntensityEdge_Autofluo,FilterObjectsMK|Intensity_UpperQuartileIntensity_Autofluo,FilterObjectsMK|Intensity_UpperQuartileIntensity_AF647,FilterObjectsMK|Intensity_UpperQuartileIntensity_DistanceTransformMKprog,FilterObjectsMK|Intensity_UpperQuartileIntensity_DistanceTransformvessel,FilterObjectsMK|Intensity_UpperQuartileIntensity_GFP,FilterObjectsMK|Intensity_UpperQuartileIntensity_DistanceTransformMK,FilterObjectsMK|Intensity_UpperQuartileIntensity_KUO,FilterObjectsMK|Intensity_IntegratedIntensity_AF647,FilterObjectsMK|Intensity_IntegratedIntensity_GFP,FilterObjectsMK|Intensity_IntegratedIntensity_KUO,FilterObjectsMK|Intensity_IntegratedIntensity_DistanceTransformMK,FilterObjectsMK|Intensity_IntegratedIntensity_DistanceTransformvessel,FilterObjectsMK|Intensity_IntegratedIntensity_Autofluo,FilterObjectsMK|Intensity_IntegratedIntensity_DistanceTransformMKprog,FilterObjectsMK|Intensity_MassDisplacement_GFP,FilterObjectsMK|Intensity_MassDisplacement_DistanceTransformMK,FilterObjectsMK|Intensity_MassDisplacement_KUO,FilterObjectsMK|Intensity_MassDisplacement_DistanceTransformMKprog,FilterObjectsMK|Intensity_MassDisplacement_Autofluo,FilterObjectsMK|Intensity_MassDisplacement_DistanceTransformvessel,FilterObjectsMK|Intensity_MassDisplacement_AF647,FilterObjectsMK|Intensity_MeanIntensity_KUO,FilterObjectsMK|Intensity_MeanIntensity_AF647,FilterObjectsMK|Intensity_MeanIntensity_DistanceTransformvessel,FilterObjectsMK|Intensity_MeanIntensity_Autofluo,FilterObjectsMK|Intensity_MeanIntensity_DistanceTransformMKprog,FilterObjectsMK|Intensity_MeanIntensity_DistanceTransformMK,FilterObjectsMK|Intensity_MeanIntensity_GFP,FilterObjectsMK|Intensity_IntegratedIntensityEdge_DistanceTransformvessel,FilterObjectsMK|Intensity_IntegratedIntensityEdge_DistanceTransformMKprog,FilterObjectsMK|Intensity_IntegratedIntensityEdge_AF647,FilterObjectsMK|Intensity_IntegratedIntensityEdge_Autofluo,FilterObjectsMK|Intensity_IntegratedIntensityEdge_KUO,FilterObjectsMK|Intensity_IntegratedIntensityEdge_GFP,FilterObjectsMK|Intensity_IntegratedIntensityEdge_DistanceTransformMK,FilterObjectsMK|Intensity_StdIntensity_AF647,FilterObjectsMK|Intensity_StdIntensity_DistanceTransformMKprog,FilterObjectsMK|Intensity_StdIntensity_DistanceTransformvessel,FilterObjectsMK|Intensity_StdIntensity_KUO,FilterObjectsMK|Intensity_StdIntensity_GFP,FilterObjectsMK|Intensity_StdIntensity_Autofluo,FilterObjectsMK|Intensity_StdIntensity_DistanceTransformMK,FilterObjectsMK|Intensity_MADIntensity_DistanceTransformvessel,FilterObjectsMK|Intensity_MADIntensity_AF647,FilterObjectsMK|Intensity_MADIntensity_KUO,FilterObjectsMK|Intensity_MADIntensity_DistanceTransformMK,FilterObjectsMK|Intensity_MADIntensity_DistanceTransformMKprog,FilterObjectsMK|Intensity_MADIntensity_Autofluo,FilterObjectsMK|Intensity_MADIntensity_GFP,FilterObjectsMK|Intensity_StdIntensityEdge_KUO,FilterObjectsMK|Intensity_StdIntensityEdge_DistanceTransformMK,FilterObjectsMK|Intensity_StdIntensityEdge_AF647,FilterObjectsMK|Intensity_StdIntensityEdge_DistanceTransformMKprog,FilterObjectsMK|Intensity_StdIntensityEdge_GFP,FilterObjectsMK|Intensity_StdIntensityEdge_DistanceTransformvessel,FilterObjectsMK|Intensity_StdIntensityEdge_Autofluo,FilterObjectsMK|Intensity_LowerQuartileIntensity_DistanceTransformMKprog,FilterObjectsMK|Intensity_LowerQuartileIntensity_Autofluo,FilterObjectsMK|Intensity_LowerQuartileIntensity_AF647,FilterObjectsMK|Intensity_LowerQuartileIntensity_GFP,FilterObjectsMK|Intensity_LowerQuartileIntensity_DistanceTransformvessel,FilterObjectsMK|Intensity_LowerQuartileIntensity_DistanceTransformMK,FilterObjectsMK|Intensity_LowerQuartileIntensity_KUO,FilterObjectsMK|Intensity_MaxIntensityEdge_KUO,FilterObjectsMK|Intensity_MaxIntensityEdge_GFP,FilterObjectsMK|Intensity_MaxIntensityEdge_AF647,FilterObjectsMK|Intensity_MaxIntensityEdge_DistanceTransformMK,FilterObjectsMK|Intensity_MaxIntensityEdge_Autofluo,FilterObjectsMK|Intensity_MaxIntensityEdge_DistanceTransformMKprog,FilterObjectsMK|Intensity_MaxIntensityEdge_DistanceTransformvessel,FilterObjectsMK|Intensity_MinIntensity_Autofluo,FilterObjectsMK|Intensity_MinIntensity_DistanceTransformvessel,FilterObjectsMK|Intensity_MinIntensity_DistanceTransformMKprog,FilterObjectsMK|Intensity_MinIntensity_GFP,FilterObjectsMK|Intensity_MinIntensity_KUO,FilterObjectsMK|Intensity_MinIntensity_AF647,FilterObjectsMK|Intensity_MinIntensity_DistanceTransformMK,FilterObjectsMK|Intensity_MedianIntensity_DistanceTransformvessel,FilterObjectsMK|Intensity_MedianIntensity_Autofluo,FilterObjectsMK|Intensity_MedianIntensity_KUO,FilterObjectsMK|Intensity_MedianIntensity_GFP,FilterObjectsMK|Intensity_MedianIntensity_DistanceTransformMK,FilterObjectsMK|Intensity_MedianIntensity_DistanceTransformMKprog,FilterObjectsMK|Intensity_MedianIntensity_AF647,FilterObjectsMK|AreaShape_Center_Z,FilterObjectsMK|AreaShape_Center_X,FilterObjectsMK|AreaShape_Center_Y,FilterObjectsMK|AreaShape_SurfaceArea,FilterObjectsMK|AreaShape_Extent,FilterObjectsMK|AreaShape_BoundingBoxMinimum_Y,FilterObjectsMK|AreaShape_BoundingBoxMinimum_Z,FilterObjectsMK|AreaShape_BoundingBoxMinimum_X,FilterObjectsMK|AreaShape_MajorAxisLength,FilterObjectsMK|AreaShape_BoundingBoxMaximum_X,FilterObjectsMK|AreaShape_BoundingBoxMaximum_Y,FilterObjectsMK|AreaShape_BoundingBoxMaximum_Z,FilterObjectsMK|AreaShape_EulerNumber,FilterObjectsMK|AreaShape_Volume,FilterObjectsMK|AreaShape_MinorAxisLength,FilterObjectsMK|AreaShape_EquivalentDiameter,FilterObjectsMK|AreaShape_BoundingBoxVolume,FilterObjectsMK|Number_Object_Number,RemovedObjectsSP|AreaShape_BoundingBoxMinimum_Z,RemovedObjectsSP|AreaShape_BoundingBoxMinimum_X,RemovedObjectsSP|AreaShape_BoundingBoxMinimum_Y,RemovedObjectsSP|AreaShape_MinorAxisLength,RemovedObjectsSP|AreaShape_EulerNumber,RemovedObjectsSP|AreaShape_MajorAxisLength,RemovedObjectsSP|AreaShape_BoundingBoxMaximum_Y,RemovedObjectsSP|AreaShape_BoundingBoxMaximum_X,RemovedObjectsSP|AreaShape_BoundingBoxMaximum_Z,RemovedObjectsSP|AreaShape_SurfaceArea,RemovedObjectsSP|AreaShape_Volume,RemovedObjectsSP|AreaShape_BoundingBoxVolume,RemovedObjectsSP|AreaShape_Center_X,RemovedObjectsSP|AreaShape_Center_Z,RemovedObjectsSP|AreaShape_Center_Y,RemovedObjectsSP|AreaShape_Extent,RemovedObjectsSP|AreaShape_EquivalentDiameter,RemovedObjectsSP|Location_CenterMassIntensity_X_GFP,RemovedObjectsSP|Location_CenterMassIntensity_X_KUO,RemovedObjectsSP|Location_CenterMassIntensity_X_Autofluo,RemovedObjectsSP|Location_CenterMassIntensity_X_AF647,RemovedObjectsSP|Location_CenterMassIntensity_X_DistanceTransformMK,RemovedObjectsSP|Location_CenterMassIntensity_X_DistanceTransformMKprog,RemovedObjectsSP|Location_CenterMassIntensity_X_DistanceTransformvessel,RemovedObjectsSP|Location_CenterMassIntensity_Z_DistanceTransformMK,RemovedObjectsSP|Location_CenterMassIntensity_Z_DistanceTransformMKprog,RemovedObjectsSP|Location_CenterMassIntensity_Z_GFP,RemovedObjectsSP|Location_CenterMassIntensity_Z_Autofluo,RemovedObjectsSP|Location_CenterMassIntensity_Z_AF647,RemovedObjectsSP|Location_CenterMassIntensity_Z_KUO,RemovedObjectsSP|Location_CenterMassIntensity_Z_DistanceTransformvessel,RemovedObjectsSP|Location_CenterMassIntensity_Y_DistanceTransformvessel,RemovedObjectsSP|Location_CenterMassIntensity_Y_DistanceTransformMK,RemovedObjectsSP|Location_CenterMassIntensity_Y_GFP,RemovedObjectsSP|Location_CenterMassIntensity_Y_KUO,RemovedObjectsSP|Location_CenterMassIntensity_Y_AF647,RemovedObjectsSP|Location_CenterMassIntensity_Y_DistanceTransformMKprog,RemovedObjectsSP|Location_CenterMassIntensity_Y_Autofluo,RemovedObjectsSP|Location_MaxIntensity_Z_DistanceTransformvessel,RemovedObjectsSP|Location_MaxIntensity_Z_GFP,RemovedObjectsSP|Location_MaxIntensity_Z_DistanceTransformMK,RemovedObjectsSP|Location_MaxIntensity_Z_AF647,RemovedObjectsSP|Location_MaxIntensity_Z_Autofluo,RemovedObjectsSP|Location_MaxIntensity_Z_DistanceTransformMKprog,RemovedObjectsSP|Location_MaxIntensity_Z_KUO,RemovedObjectsSP|Location_MaxIntensity_Y_DistanceTransformMK,RemovedObjectsSP|Location_MaxIntensity_Y_AF647,RemovedObjectsSP|Location_MaxIntensity_Y_Autofluo,RemovedObjectsSP|Location_MaxIntensity_Y_KUO,RemovedObjectsSP|Location_MaxIntensity_Y_GFP,RemovedObjectsSP|Location_MaxIntensity_Y_DistanceTransformMKprog,RemovedObjectsSP|Location_MaxIntensity_Y_DistanceTransformvessel,RemovedObjectsSP|Location_MaxIntensity_X_DistanceTransformMK,RemovedObjectsSP|Location_MaxIntensity_X_GFP,RemovedObjectsSP|Location_MaxIntensity_X_AF647,RemovedObjectsSP|Location_MaxIntensity_X_DistanceTransformvessel,RemovedObjectsSP|Location_MaxIntensity_X_Autofluo,RemovedObjectsSP|Location_MaxIntensity_X_DistanceTransformMKprog,RemovedObjectsSP|Location_MaxIntensity_X_KUO,RemovedObjectsSP|Location_Center_Z,RemovedObjectsSP|Location_Center_Y,RemovedObjectsSP|Location_Center_X,RemovedObjectsSP|Intensity_UpperQuartileIntensity_KUO,RemovedObjectsSP|Intensity_UpperQuartileIntensity_AF647,RemovedObjectsSP|Intensity_UpperQuartileIntensity_Autofluo,RemovedObjectsSP|Intensity_UpperQuartileIntensity_DistanceTransformMKprog,RemovedObjectsSP|Intensity_UpperQuartileIntensity_DistanceTransformvessel,RemovedObjectsSP|Intensity_UpperQuartileIntensity_GFP,RemovedObjectsSP|Intensity_UpperQuartileIntensity_DistanceTransformMK,RemovedObjectsSP|Intensity_MinIntensity_DistanceTransformMK,RemovedObjectsSP|Intensity_MinIntensity_DistanceTransformvessel,RemovedObjectsSP|Intensity_MinIntensity_GFP,RemovedObjectsSP|Intensity_MinIntensity_Autofluo,RemovedObjectsSP|Intensity_MinIntensity_AF647,RemovedObjectsSP|Intensity_MinIntensity_DistanceTransformMKprog,RemovedObjectsSP|Intensity_MinIntensity_KUO,RemovedObjectsSP|Intensity_StdIntensity_KUO,RemovedObjectsSP|Intensity_StdIntensity_DistanceTransformMKprog,RemovedObjectsSP|Intensity_StdIntensity_GFP,RemovedObjectsSP|Intensity_StdIntensity_AF647,RemovedObjectsSP|Intensity_StdIntensity_DistanceTransformvessel,RemovedObjectsSP|Intensity_StdIntensity_DistanceTransformMK,RemovedObjectsSP|Intensity_StdIntensity_Autofluo,RemovedObjectsSP|Intensity_MaxIntensityEdge_DistanceTransformMKprog,RemovedObjectsSP|Intensity_MaxIntensityEdge_Autofluo,RemovedObjectsSP|Intensity_MaxIntensityEdge_KUO,RemovedObjectsSP|Intensity_MaxIntensityEdge_AF647,RemovedObjectsSP|Intensity_MaxIntensityEdge_DistanceTransformMK,RemovedObjectsSP|Intensity_MaxIntensityEdge_DistanceTransformvessel,RemovedObjectsSP|Intensity_MaxIntensityEdge_GFP,RemovedObjectsSP|Intensity_IntegratedIntensity_KUO,RemovedObjectsSP|Intensity_IntegratedIntensity_AF647,RemovedObjectsSP|Intensity_IntegratedIntensity_GFP,RemovedObjectsSP|Intensity_IntegratedIntensity_DistanceTransformvessel,RemovedObjectsSP|Intensity_IntegratedIntensity_DistanceTransformMK,RemovedObjectsSP|Intensity_IntegratedIntensity_DistanceTransformMKprog,RemovedObjectsSP|Intensity_IntegratedIntensity_Autofluo,RemovedObjectsSP|Intensity_MADIntensity_DistanceTransformvessel,RemovedObjectsSP|Intensity_MADIntensity_KUO,RemovedObjectsSP|Intensity_MADIntensity_Autofluo,RemovedObjectsSP|Intensity_MADIntensity_DistanceTransformMKprog,RemovedObjectsSP|Intensity_MADIntensity_DistanceTransformMK,RemovedObjectsSP|Intensity_MADIntensity_AF647,RemovedObjectsSP|Intensity_MADIntensity_GFP,RemovedObjectsSP|Intensity_LowerQuartileIntensity_Autofluo,RemovedObjectsSP|Intensity_LowerQuartileIntensity_AF647,RemovedObjectsSP|Intensity_LowerQuartileIntensity_DistanceTransformMKprog,RemovedObjectsSP|Intensity_LowerQuartileIntensity_DistanceTransformMK,RemovedObjectsSP|Intensity_LowerQuartileIntensity_GFP,RemovedObjectsSP|Intensity_LowerQuartileIntensity_KUO,RemovedObjectsSP|Intensity_LowerQuartileIntensity_DistanceTransformvessel,RemovedObjectsSP|Intensity_IntegratedIntensityEdge_DistanceTransformMKprog,RemovedObjectsSP|Intensity_IntegratedIntensityEdge_GFP,RemovedObjectsSP|Intensity_IntegratedIntensityEdge_Autofluo,RemovedObjectsSP|Intensity_IntegratedIntensityEdge_KUO,RemovedObjectsSP|Intensity_IntegratedIntensityEdge_AF647,RemovedObjectsSP|Intensity_IntegratedIntensityEdge_DistanceTransformvessel,RemovedObjectsSP|Intensity_IntegratedIntensityEdge_DistanceTransformMK,RemovedObjectsSP|Intensity_StdIntensityEdge_KUO,RemovedObjectsSP|Intensity_StdIntensityEdge_DistanceTransformMKprog,RemovedObjectsSP|Intensity_StdIntensityEdge_DistanceTransformMK,RemovedObjectsSP|Intensity_StdIntensityEdge_DistanceTransformvessel,RemovedObjectsSP|Intensity_StdIntensityEdge_AF647,RemovedObjectsSP|Intensity_StdIntensityEdge_Autofluo,RemovedObjectsSP|Intensity_StdIntensityEdge_GFP,RemovedObjectsSP|Intensity_MedianIntensity_Autofluo,RemovedObjectsSP|Intensity_MedianIntensity_GFP,RemovedObjectsSP|Intensity_MedianIntensity_KUO,RemovedObjectsSP|Intensity_MedianIntensity_AF647,RemovedObjectsSP|Intensity_MedianIntensity_DistanceTransformvessel,RemovedObjectsSP|Intensity_MedianIntensity_DistanceTransformMKprog,RemovedObjectsSP|Intensity_MedianIntensity_DistanceTransformMK,RemovedObjectsSP|Intensity_MeanIntensity_Autofluo,RemovedObjectsSP|Intensity_MeanIntensity_DistanceTransformMKprog,RemovedObjectsSP|Intensity_MeanIntensity_KUO,RemovedObjectsSP|Intensity_MeanIntensity_DistanceTransformvessel,RemovedObjectsSP|Intensity_MeanIntensity_AF647,RemovedObjectsSP|Intensity_MeanIntensity_DistanceTransformMK,RemovedObjectsSP|Intensity_MeanIntensity_GFP,RemovedObjectsSP|Intensity_MaxIntensity_Autofluo,RemovedObjectsSP|Intensity_MaxIntensity_AF647,RemovedObjectsSP|Intensity_MaxIntensity_GFP,RemovedObjectsSP|Intensity_MaxIntensity_KUO,RemovedObjectsSP|Intensity_MaxIntensity_DistanceTransformMK,RemovedObjectsSP|Intensity_MaxIntensity_DistanceTransformMKprog,RemovedObjectsSP|Intensity_MaxIntensity_DistanceTransformvessel,RemovedObjectsSP|Intensity_MinIntensityEdge_AF647,RemovedObjectsSP|Intensity_MinIntensityEdge_KUO,RemovedObjectsSP|Intensity_MinIntensityEdge_GFP,RemovedObjectsSP|Intensity_MinIntensityEdge_DistanceTransformMKprog,RemovedObjectsSP|Intensity_MinIntensityEdge_Autofluo,RemovedObjectsSP|Intensity_MinIntensityEdge_DistanceTransformvessel,RemovedObjectsSP|Intensity_MinIntensityEdge_DistanceTransformMK,RemovedObjectsSP|Intensity_MeanIntensityEdge_GFP,RemovedObjectsSP|Intensity_MeanIntensityEdge_DistanceTransformMK,RemovedObjectsSP|Intensity_MeanIntensityEdge_AF647,RemovedObjectsSP|Intensity_MeanIntensityEdge_DistanceTransformvessel,RemovedObjectsSP|Intensity_MeanIntensityEdge_Autofluo,RemovedObjectsSP|Intensity_MeanIntensityEdge_DistanceTransformMKprog,RemovedObjectsSP|Intensity_MeanIntensityEdge_KUO,RemovedObjectsSP|Intensity_MassDisplacement_Autofluo,RemovedObjectsSP|Intensity_MassDisplacement_AF647,RemovedObjectsSP|Intensity_MassDisplacement_DistanceTransformvessel,RemovedObjectsSP|Intensity_MassDisplacement_DistanceTransformMKprog,RemovedObjectsSP|Intensity_MassDisplacement_KUO,RemovedObjectsSP|Intensity_MassDisplacement_GFP,RemovedObjectsSP|Intensity_MassDisplacement_DistanceTransformMK,RemovedObjectsSP|Neighbors_AngleBetweenNeighbors_WatershedAF647_30,RemovedObjectsSP|Neighbors_AngleBetweenNeighbors_FilterObjectsMK_30,RemovedObjectsSP|Neighbors_AngleBetweenNeighbors_RemovedObjectsMKprogenitors_30,RemovedObjectsSP|Neighbors_FirstClosestDistance_WatershedAF647_30,RemovedObjectsSP|Neighbors_FirstClosestDistance_RemovedObjectsMKprogenitors_30,RemovedObjectsSP|Neighbors_FirstClosestDistance_FilterObjectsMK_30,RemovedObjectsSP|Neighbors_SecondClosestObjectNumber_RemovedObjectsMKprogenitors_30,RemovedObjectsSP|Neighbors_SecondClosestObjectNumber_FilterObjectsMK_30,RemovedObjectsSP|Neighbors_SecondClosestObjectNumber_WatershedAF647_30,RemovedObjectsSP|Neighbors_NumberOfNeighbors_RemovedObjectsMKprogenitors_30,RemovedObjectsSP|Neighbors_NumberOfNeighbors_WatershedAF647_30,RemovedObjectsSP|Neighbors_NumberOfNeighbors_FilterObjectsMK_30,RemovedObjectsSP|Neighbors_SecondClosestDistance_FilterObjectsMK_30,RemovedObjectsSP|Neighbors_SecondClosestDistance_RemovedObjectsMKprogenitors_30,RemovedObjectsSP|Neighbors_SecondClosestDistance_WatershedAF647_30,RemovedObjectsSP|Neighbors_PercentTouching_WatershedAF647_30,RemovedObjectsSP|Neighbors_PercentTouching_FilterObjectsMK_30,RemovedObjectsSP|Neighbors_PercentTouching_RemovedObjectsMKprogenitors_30,RemovedObjectsSP|Neighbors_FirstClosestObjectNumber_WatershedAF647_30,RemovedObjectsSP|Neighbors_FirstClosestObjectNumber_FilterObjectsMK_30,RemovedObjectsSP|Neighbors_FirstClosestObjectNumber_RemovedObjectsMKprogenitors_30,RemovedObjectsSP|Parent_FilterObjectsKUO,RemovedObjectsSP|Number_Object_Number,WatershedGFP|Location_Center_Z,WatershedGFP|Location_Center_Y,WatershedGFP|Location_Center_X,WatershedGFP|Number_Object_Number,FilterObjectsDP|Location_CenterMassIntensity_X_DistanceTransformvessel,FilterObjectsDP|Location_CenterMassIntensity_X_Autofluo,FilterObjectsDP|Location_CenterMassIntensity_X_DistanceTransformMK,FilterObjectsDP|Location_CenterMassIntensity_X_KUO,FilterObjectsDP|Location_CenterMassIntensity_X_GFP,FilterObjectsDP|Location_CenterMassIntensity_X_AF647,FilterObjectsDP|Location_CenterMassIntensity_X_DistanceTransformMKprog,FilterObjectsDP|Location_CenterMassIntensity_Y_KUO,FilterObjectsDP|Location_CenterMassIntensity_Y_AF647,FilterObjectsDP|Location_CenterMassIntensity_Y_GFP,FilterObjectsDP|Location_CenterMassIntensity_Y_Autofluo,FilterObjectsDP|Location_CenterMassIntensity_Y_DistanceTransformMK,FilterObjectsDP|Location_CenterMassIntensity_Y_DistanceTransformMKprog,FilterObjectsDP|Location_CenterMassIntensity_Y_DistanceTransformvessel,FilterObjectsDP|Location_CenterMassIntensity_Z_KUO,FilterObjectsDP|Location_CenterMassIntensity_Z_DistanceTransformvessel,FilterObjectsDP|Location_CenterMassIntensity_Z_Autofluo,FilterObjectsDP|Location_CenterMassIntensity_Z_DistanceTransformMKprog,FilterObjectsDP|Location_CenterMassIntensity_Z_DistanceTransformMK,FilterObjectsDP|Location_CenterMassIntensity_Z_GFP,FilterObjectsDP|Location_CenterMassIntensity_Z_AF647,FilterObjectsDP|Location_MaxIntensity_Z_AF647,FilterObjectsDP|Location_MaxIntensity_Z_DistanceTransformMK,FilterObjectsDP|Location_MaxIntensity_Z_Autofluo,FilterObjectsDP|Location_MaxIntensity_Z_GFP,FilterObjectsDP|Location_MaxIntensity_Z_DistanceTransformMKprog,FilterObjectsDP|Location_MaxIntensity_Z_KUO,FilterObjectsDP|Location_MaxIntensity_Z_DistanceTransformvessel,FilterObjectsDP|Location_MaxIntensity_X_Autofluo,FilterObjectsDP|Location_MaxIntensity_X_DistanceTransformMKprog,FilterObjectsDP|Location_MaxIntensity_X_KUO,FilterObjectsDP|Location_MaxIntensity_X_DistanceTransformMK,FilterObjectsDP|Location_MaxIntensity_X_DistanceTransformvessel,FilterObjectsDP|Location_MaxIntensity_X_GFP,FilterObjectsDP|Location_MaxIntensity_X_AF647,FilterObjectsDP|Location_MaxIntensity_Y_Autofluo,FilterObjectsDP|Location_MaxIntensity_Y_KUO,FilterObjectsDP|Location_MaxIntensity_Y_AF647,FilterObjectsDP|Location_MaxIntensity_Y_DistanceTransformMK,FilterObjectsDP|Location_MaxIntensity_Y_GFP,FilterObjectsDP|Location_MaxIntensity_Y_DistanceTransformMKprog,FilterObjectsDP|Location_MaxIntensity_Y_DistanceTransformvessel,FilterObjectsDP|Location_Center_Y,FilterObjectsDP|Location_Center_Z,FilterObjectsDP|Location_Center_X,FilterObjectsDP|Intensity_MedianIntensity_DistanceTransformMKprog,FilterObjectsDP|Intensity_MedianIntensity_KUO,FilterObjectsDP|Intensity_MedianIntensity_DistanceTransformMK,FilterObjectsDP|Intensity_MedianIntensity_GFP,FilterObjectsDP|Intensity_MedianIntensity_AF647,FilterObjectsDP|Intensity_MedianIntensity_DistanceTransformvessel,FilterObjectsDP|Intensity_MedianIntensity_Autofluo,FilterObjectsDP|Intensity_LowerQuartileIntensity_AF647,FilterObjectsDP|Intensity_LowerQuartileIntensity_DistanceTransformvessel,FilterObjectsDP|Intensity_LowerQuartileIntensity_GFP,FilterObjectsDP|Intensity_LowerQuartileIntensity_KUO,FilterObjectsDP|Intensity_LowerQuartileIntensity_DistanceTransformMKprog,FilterObjectsDP|Intensity_LowerQuartileIntensity_DistanceTransformMK,FilterObjectsDP|Intensity_LowerQuartileIntensity_Autofluo,FilterObjectsDP|Intensity_IntegratedIntensity_DistanceTransformMKprog,FilterObjectsDP|Intensity_IntegratedIntensity_AF647,FilterObjectsDP|Intensity_IntegratedIntensity_GFP,FilterObjectsDP|Intensity_IntegratedIntensity_Autofluo,FilterObjectsDP|Intensity_IntegratedIntensity_KUO,FilterObjectsDP|Intensity_IntegratedIntensity_DistanceTransformvessel,FilterObjectsDP|Intensity_IntegratedIntensity_DistanceTransformMK,FilterObjectsDP|Intensity_MaxIntensityEdge_KUO,FilterObjectsDP|Intensity_MaxIntensityEdge_GFP,FilterObjectsDP|Intensity_MaxIntensityEdge_DistanceTransformMKprog,FilterObjectsDP|Intensity_MaxIntensityEdge_AF647,FilterObjectsDP|Intensity_MaxIntensityEdge_DistanceTransformvessel,FilterObjectsDP|Intensity_MaxIntensityEdge_Autofluo,FilterObjectsDP|Intensity_MaxIntensityEdge_DistanceTransformMK,FilterObjectsDP|Intensity_MinIntensityEdge_DistanceTransformMK,FilterObjectsDP|Intensity_MinIntensityEdge_GFP,FilterObjectsDP|Intensity_MinIntensityEdge_DistanceTransformMKprog,FilterObjectsDP|Intensity_MinIntensityEdge_Autofluo,FilterObjectsDP|Intensity_MinIntensityEdge_DistanceTransformvessel,FilterObjectsDP|Intensity_MinIntensityEdge_AF647,FilterObjectsDP|Intensity_MinIntensityEdge_KUO,FilterObjectsDP|Intensity_MinIntensity_AF647,FilterObjectsDP|Intensity_MinIntensity_DistanceTransformMK,FilterObjectsDP|Intensity_MinIntensity_Autofluo,FilterObjectsDP|Intensity_MinIntensity_DistanceTransformMKprog,FilterObjectsDP|Intensity_MinIntensity_KUO,FilterObjectsDP|Intensity_MinIntensity_GFP,FilterObjectsDP|Intensity_MinIntensity_DistanceTransformvessel,FilterObjectsDP|Intensity_MaxIntensity_KUO,FilterObjectsDP|Intensity_MaxIntensity_GFP,FilterObjectsDP|Intensity_MaxIntensity_AF647,FilterObjectsDP|Intensity_MaxIntensity_DistanceTransformMK,FilterObjectsDP|Intensity_MaxIntensity_DistanceTransformMKprog,FilterObjectsDP|Intensity_MaxIntensity_Autofluo,FilterObjectsDP|Intensity_MaxIntensity_DistanceTransformvessel,FilterObjectsDP|Intensity_MassDisplacement_Autofluo,FilterObjectsDP|Intensity_MassDisplacement_GFP,FilterObjectsDP|Intensity_MassDisplacement_DistanceTransformvessel,FilterObjectsDP|Intensity_MassDisplacement_AF647,FilterObjectsDP|Intensity_MassDisplacement_KUO,FilterObjectsDP|Intensity_MassDisplacement_DistanceTransformMK,FilterObjectsDP|Intensity_MassDisplacement_DistanceTransformMKprog,FilterObjectsDP|Intensity_MeanIntensity_KUO,FilterObjectsDP|Intensity_MeanIntensity_AF647,FilterObjectsDP|Intensity_MeanIntensity_DistanceTransformMK,FilterObjectsDP|Intensity_MeanIntensity_DistanceTransformvessel,FilterObjectsDP|Intensity_MeanIntensity_Autofluo,FilterObjectsDP|Intensity_MeanIntensity_GFP,FilterObjectsDP|Intensity_MeanIntensity_DistanceTransformMKprog,FilterObjectsDP|Intensity_MADIntensity_Autofluo,FilterObjectsDP|Intensity_MADIntensity_GFP,FilterObjectsDP|Intensity_MADIntensity_KUO,FilterObjectsDP|Intensity_MADIntensity_DistanceTransformMK,FilterObjectsDP|Intensity_MADIntensity_DistanceTransformvessel,FilterObjectsDP|Intensity_MADIntensity_AF647,FilterObjectsDP|Intensity_MADIntensity_DistanceTransformMKprog,FilterObjectsDP|Intensity_UpperQuartileIntensity_AF647,FilterObjectsDP|Intensity_UpperQuartileIntensity_GFP,FilterObjectsDP|Intensity_UpperQuartileIntensity_DistanceTransformMK,FilterObjectsDP|Intensity_UpperQuartileIntensity_KUO,FilterObjectsDP|Intensity_UpperQuartileIntensity_DistanceTransformvessel,FilterObjectsDP|Intensity_UpperQuartileIntensity_Autofluo,FilterObjectsDP|Intensity_UpperQuartileIntensity_DistanceTransformMKprog,FilterObjectsDP|Intensity_IntegratedIntensityEdge_DistanceTransformvessel,FilterObjectsDP|Intensity_IntegratedIntensityEdge_Autofluo,FilterObjectsDP|Intensity_IntegratedIntensityEdge_AF647,FilterObjectsDP|Intensity_IntegratedIntensityEdge_DistanceTransformMKprog,FilterObjectsDP|Intensity_IntegratedIntensityEdge_GFP,FilterObjectsDP|Intensity_IntegratedIntensityEdge_KUO,FilterObjectsDP|Intensity_IntegratedIntensityEdge_DistanceTransformMK,FilterObjectsDP|Intensity_StdIntensityEdge_DistanceTransformMKprog,FilterObjectsDP|Intensity_StdIntensityEdge_KUO,FilterObjectsDP|Intensity_StdIntensityEdge_Autofluo,FilterObjectsDP|Intensity_StdIntensityEdge_DistanceTransformMK,FilterObjectsDP|Intensity_StdIntensityEdge_GFP,FilterObjectsDP|Intensity_StdIntensityEdge_DistanceTransformvessel,FilterObjectsDP|Intensity_StdIntensityEdge_AF647,FilterObjectsDP|Intensity_MeanIntensityEdge_DistanceTransformvessel,FilterObjectsDP|Intensity_MeanIntensityEdge_KUO,FilterObjectsDP|Intensity_MeanIntensityEdge_AF647,FilterObjectsDP|Intensity_MeanIntensityEdge_DistanceTransformMKprog,FilterObjectsDP|Intensity_MeanIntensityEdge_DistanceTransformMK,FilterObjectsDP|Intensity_MeanIntensityEdge_Autofluo,FilterObjectsDP|Intensity_MeanIntensityEdge_GFP,FilterObjectsDP|Intensity_StdIntensity_GFP,FilterObjectsDP|Intensity_StdIntensity_DistanceTransformMKprog,FilterObjectsDP|Intensity_StdIntensity_KUO,FilterObjectsDP|Intensity_StdIntensity_Autofluo,FilterObjectsDP|Intensity_StdIntensity_DistanceTransformMK,FilterObjectsDP|Intensity_StdIntensity_AF647,FilterObjectsDP|Intensity_StdIntensity_DistanceTransformvessel,FilterObjectsDP|Neighbors_NumberOfNeighbors_FilterObjectsMK_30,FilterObjectsDP|Neighbors_NumberOfNeighbors_WatershedAF647_30,FilterObjectsDP|Neighbors_NumberOfNeighbors_RemovedObjectsMKprogenitors_30,FilterObjectsDP|Neighbors_SecondClosestDistance_WatershedAF647_30,FilterObjectsDP|Neighbors_SecondClosestDistance_RemovedObjectsMKprogenitors_30,FilterObjectsDP|Neighbors_SecondClosestDistance_FilterObjectsMK_30,FilterObjectsDP|Neighbors_FirstClosestDistance_WatershedAF647_30,FilterObjectsDP|Neighbors_FirstClosestDistance_FilterObjectsMK_30,FilterObjectsDP|Neighbors_FirstClosestDistance_RemovedObjectsMKprogenitors_30,FilterObjectsDP|Neighbors_PercentTouching_WatershedAF647_30,FilterObjectsDP|Neighbors_PercentTouching_RemovedObjectsMKprogenitors_30,FilterObjectsDP|Neighbors_PercentTouching_FilterObjectsMK_30,FilterObjectsDP|Neighbors_SecondClosestObjectNumber_WatershedAF647_30,FilterObjectsDP|Neighbors_SecondClosestObjectNumber_FilterObjectsMK_30,FilterObjectsDP|Neighbors_SecondClosestObjectNumber_RemovedObjectsMKprogenitors_30,FilterObjectsDP|Neighbors_FirstClosestObjectNumber_WatershedAF647_30,FilterObjectsDP|Neighbors_FirstClosestObjectNumber_RemovedObjectsMKprogenitors_30,FilterObjectsDP|Neighbors_FirstClosestObjectNumber_FilterObjectsMK_30,FilterObjectsDP|Neighbors_AngleBetweenNeighbors_RemovedObjectsMKprogenitors_30,FilterObjectsDP|Neighbors_AngleBetweenNeighbors_FilterObjectsMK_30,FilterObjectsDP|Neighbors_AngleBetweenNeighbors_WatershedAF647_30,FilterObjectsDP|AreaShape_BoundingBoxMinimum_Y,FilterObjectsDP|AreaShape_BoundingBoxMinimum_Z,FilterObjectsDP|AreaShape_BoundingBoxMinimum_X,FilterObjectsDP|AreaShape_BoundingBoxMaximum_X,FilterObjectsDP|AreaShape_BoundingBoxMaximum_Z,FilterObjectsDP|AreaShape_BoundingBoxMaximum_Y,FilterObjectsDP|AreaShape_EquivalentDiameter,FilterObjectsDP|AreaShape_EulerNumber,FilterObjectsDP|AreaShape_Center_X,FilterObjectsDP|AreaShape_Center_Z,FilterObjectsDP|AreaShape_Center_Y,FilterObjectsDP|AreaShape_Extent,FilterObjectsDP|AreaShape_Volume,FilterObjectsDP|AreaShape_BoundingBoxVolume,FilterObjectsDP|AreaShape_SurfaceArea,FilterObjectsDP|AreaShape_MinorAxisLength,FilterObjectsDP|AreaShape_MajorAxisLength,FilterObjectsDP|Parent_FilterObjectsKUO,FilterObjectsDP|Number_Object_Number,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensityEdge_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensityEdge_GFP,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensityEdge_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensityEdge_AF647,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensityEdge_Autofluo,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensityEdge_KUO,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensityEdge_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_MinIntensityEdge_GFP,RemovedObjectsMKprogenitors|Intensity_MinIntensityEdge_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_MinIntensityEdge_Autofluo,RemovedObjectsMKprogenitors|Intensity_MinIntensityEdge_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_MinIntensityEdge_AF647,RemovedObjectsMKprogenitors|Intensity_MinIntensityEdge_KUO,RemovedObjectsMKprogenitors|Intensity_MinIntensityEdge_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_MeanIntensityEdge_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_MeanIntensityEdge_AF647,RemovedObjectsMKprogenitors|Intensity_MeanIntensityEdge_Autofluo,RemovedObjectsMKprogenitors|Intensity_MeanIntensityEdge_GFP,RemovedObjectsMKprogenitors|Intensity_MeanIntensityEdge_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_MeanIntensityEdge_KUO,RemovedObjectsMKprogenitors|Intensity_MeanIntensityEdge_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_MedianIntensity_Autofluo,RemovedObjectsMKprogenitors|Intensity_MedianIntensity_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_MedianIntensity_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_MedianIntensity_GFP,RemovedObjectsMKprogenitors|Intensity_MedianIntensity_KUO,RemovedObjectsMKprogenitors|Intensity_MedianIntensity_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_MedianIntensity_AF647,RemovedObjectsMKprogenitors|Intensity_MADIntensity_KUO,RemovedObjectsMKprogenitors|Intensity_MADIntensity_GFP,RemovedObjectsMKprogenitors|Intensity_MADIntensity_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_MADIntensity_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_MADIntensity_AF647,RemovedObjectsMKprogenitors|Intensity_MADIntensity_Autofluo,RemovedObjectsMKprogenitors|Intensity_MADIntensity_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_UpperQuartileIntensity_AF647,RemovedObjectsMKprogenitors|Intensity_UpperQuartileIntensity_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_UpperQuartileIntensity_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_UpperQuartileIntensity_GFP,RemovedObjectsMKprogenitors|Intensity_UpperQuartileIntensity_KUO,RemovedObjectsMKprogenitors|Intensity_UpperQuartileIntensity_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_UpperQuartileIntensity_Autofluo,RemovedObjectsMKprogenitors|Intensity_MeanIntensity_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_MeanIntensity_GFP,RemovedObjectsMKprogenitors|Intensity_MeanIntensity_KUO,RemovedObjectsMKprogenitors|Intensity_MeanIntensity_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_MeanIntensity_Autofluo,RemovedObjectsMKprogenitors|Intensity_MeanIntensity_AF647,RemovedObjectsMKprogenitors|Intensity_MeanIntensity_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_MinIntensity_Autofluo,RemovedObjectsMKprogenitors|Intensity_MinIntensity_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_MinIntensity_AF647,RemovedObjectsMKprogenitors|Intensity_MinIntensity_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_MinIntensity_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_MinIntensity_KUO,RemovedObjectsMKprogenitors|Intensity_MinIntensity_GFP,RemovedObjectsMKprogenitors|Intensity_MaxIntensity_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_MaxIntensity_Autofluo,RemovedObjectsMKprogenitors|Intensity_MaxIntensity_GFP,RemovedObjectsMKprogenitors|Intensity_MaxIntensity_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_MaxIntensity_KUO,RemovedObjectsMKprogenitors|Intensity_MaxIntensity_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_MaxIntensity_AF647,RemovedObjectsMKprogenitors|Intensity_StdIntensity_KUO,RemovedObjectsMKprogenitors|Intensity_StdIntensity_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_StdIntensity_Autofluo,RemovedObjectsMKprogenitors|Intensity_StdIntensity_AF647,RemovedObjectsMKprogenitors|Intensity_StdIntensity_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_StdIntensity_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_StdIntensity_GFP,RemovedObjectsMKprogenitors|Intensity_MassDisplacement_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_MassDisplacement_AF647,RemovedObjectsMKprogenitors|Intensity_MassDisplacement_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_MassDisplacement_Autofluo,RemovedObjectsMKprogenitors|Intensity_MassDisplacement_GFP,RemovedObjectsMKprogenitors|Intensity_MassDisplacement_KUO,RemovedObjectsMKprogenitors|Intensity_MassDisplacement_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_MaxIntensityEdge_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_MaxIntensityEdge_GFP,RemovedObjectsMKprogenitors|Intensity_MaxIntensityEdge_KUO,RemovedObjectsMKprogenitors|Intensity_MaxIntensityEdge_AF647,RemovedObjectsMKprogenitors|Intensity_MaxIntensityEdge_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_MaxIntensityEdge_Autofluo,RemovedObjectsMKprogenitors|Intensity_MaxIntensityEdge_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensity_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensity_Autofluo,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensity_AF647,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensity_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensity_GFP,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensity_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_IntegratedIntensity_KUO,RemovedObjectsMKprogenitors|Intensity_StdIntensityEdge_AF647,RemovedObjectsMKprogenitors|Intensity_StdIntensityEdge_KUO,RemovedObjectsMKprogenitors|Intensity_StdIntensityEdge_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_StdIntensityEdge_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_StdIntensityEdge_Autofluo,RemovedObjectsMKprogenitors|Intensity_StdIntensityEdge_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_StdIntensityEdge_GFP,RemovedObjectsMKprogenitors|Intensity_LowerQuartileIntensity_DistanceTransformvessel,RemovedObjectsMKprogenitors|Intensity_LowerQuartileIntensity_Autofluo,RemovedObjectsMKprogenitors|Intensity_LowerQuartileIntensity_GFP,RemovedObjectsMKprogenitors|Intensity_LowerQuartileIntensity_KUO,RemovedObjectsMKprogenitors|Intensity_LowerQuartileIntensity_DistanceTransformMK,RemovedObjectsMKprogenitors|Intensity_LowerQuartileIntensity_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Intensity_LowerQuartileIntensity_AF647,RemovedObjectsMKprogenitors|Location_MaxIntensity_Z_Autofluo,RemovedObjectsMKprogenitors|Location_MaxIntensity_Z_DistanceTransformMK,RemovedObjectsMKprogenitors|Location_MaxIntensity_Z_GFP,RemovedObjectsMKprogenitors|Location_MaxIntensity_Z_KUO,RemovedObjectsMKprogenitors|Location_MaxIntensity_Z_DistanceTransformvessel,RemovedObjectsMKprogenitors|Location_MaxIntensity_Z_AF647,RemovedObjectsMKprogenitors|Location_MaxIntensity_Z_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Location_MaxIntensity_X_GFP,RemovedObjectsMKprogenitors|Location_MaxIntensity_X_Autofluo,RemovedObjectsMKprogenitors|Location_MaxIntensity_X_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Location_MaxIntensity_X_KUO,RemovedObjectsMKprogenitors|Location_MaxIntensity_X_AF647,RemovedObjectsMKprogenitors|Location_MaxIntensity_X_DistanceTransformMK,RemovedObjectsMKprogenitors|Location_MaxIntensity_X_DistanceTransformvessel,RemovedObjectsMKprogenitors|Location_MaxIntensity_Y_AF647,RemovedObjectsMKprogenitors|Location_MaxIntensity_Y_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Location_MaxIntensity_Y_GFP,RemovedObjectsMKprogenitors|Location_MaxIntensity_Y_DistanceTransformvessel,RemovedObjectsMKprogenitors|Location_MaxIntensity_Y_KUO,RemovedObjectsMKprogenitors|Location_MaxIntensity_Y_Autofluo,RemovedObjectsMKprogenitors|Location_MaxIntensity_Y_DistanceTransformMK,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Z_KUO,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Z_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Z_GFP,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Z_DistanceTransformvessel,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Z_AF647,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Z_Autofluo,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Z_DistanceTransformMK,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_X_AF647,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_X_KUO,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_X_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_X_Autofluo,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_X_DistanceTransformvessel,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_X_DistanceTransformMK,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_X_GFP,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Y_DistanceTransformMKprog,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Y_DistanceTransformvessel,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Y_Autofluo,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Y_AF647,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Y_KUO,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Y_GFP,RemovedObjectsMKprogenitors|Location_CenterMassIntensity_Y_DistanceTransformMK,RemovedObjectsMKprogenitors|Location_Center_Z,RemovedObjectsMKprogenitors|Location_Center_X,RemovedObjectsMKprogenitors|Location_Center_Y,RemovedObjectsMKprogenitors|AreaShape_Extent,RemovedObjectsMKprogenitors|AreaShape_SurfaceArea,RemovedObjectsMKprogenitors|AreaShape_BoundingBoxMinimum_Z,RemovedObjectsMKprogenitors|AreaShape_BoundingBoxMinimum_Y,RemovedObjectsMKprogenitors|AreaShape_BoundingBoxMinimum_X,RemovedObjectsMKprogenitors|AreaShape_Volume,RemovedObjectsMKprogenitors|AreaShape_Center_Y,RemovedObjectsMKprogenitors|AreaShape_Center_Z,RemovedObjectsMKprogenitors|AreaShape_Center_X,RemovedObjectsMKprogenitors|AreaShape_BoundingBoxMaximum_Z,RemovedObjectsMKprogenitors|AreaShape_BoundingBoxMaximum_X,RemovedObjectsMKprogenitors|AreaShape_BoundingBoxMaximum_Y,RemovedObjectsMKprogenitors|AreaShape_EquivalentDiameter,RemovedObjectsMKprogenitors|AreaShape_MinorAxisLength,RemovedObjectsMKprogenitors|AreaShape_MajorAxisLength,RemovedObjectsMKprogenitors|AreaShape_BoundingBoxVolume,RemovedObjectsMKprogenitors|AreaShape_EulerNumber,RemovedObjectsMKprogenitors|Number_Object_Number,FillObjectsIlastik|AreaShape_Center_Y,FillObjectsIlastik|AreaShape_Center_Z,FillObjectsIlastik|AreaShape_Center_X,FillObjectsIlastik|AreaShape_BoundingBoxMinimum_X,FillObjectsIlastik|AreaShape_BoundingBoxMinimum_Y,FillObjectsIlastik|AreaShape_BoundingBoxMinimum_Z,FillObjectsIlastik|AreaShape_EulerNumber,FillObjectsIlastik|AreaShape_BoundingBoxVolume,FillObjectsIlastik|AreaShape_Extent,FillObjectsIlastik|AreaShape_MinorAxisLength,FillObjectsIlastik|AreaShape_EquivalentDiameter,FillObjectsIlastik|AreaShape_BoundingBoxMaximum_X,FillObjectsIlastik|AreaShape_BoundingBoxMaximum_Z,FillObjectsIlastik|AreaShape_BoundingBoxMaximum_Y,FillObjectsIlastik|AreaShape_SurfaceArea,FillObjectsIlastik|AreaShape_MajorAxisLength,FillObjectsIlastik|AreaShape_Volume,FillObjectsIlastik|Location_Center_Z,FillObjectsIlastik|Location_Center_X,FillObjectsIlastik|Location_Center_Y
+    Representation of Nan/Inf:NaN
+    Add a prefix to file names?:Yes
+    Filename prefix:MyExpt_
+    Overwrite existing files without warning?:Yes
+    Data to export:Do not use
+    Combine these object measurements with those of the previous object?:No
+    File name:DATA.csv
+    Use the object name for the file name?:Yes
+
+SaveImages:[module_num:70|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:ThresholdIlastik
+    Select method for constructing file names:From image filename
+    Select image name for file prefix:Ilastik
+    Enter single file name:OrigBlue
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:tiff
+    Output file location:Default Output Folder|Downloads/CellProfiler/TilescanKuO
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Every cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+    Save with lossless compression?:Yes
+
+SaveCroppedObjects:[module_num:71|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Objects:FilterObjectsKUO
+    Directory:Default Input Folder sub-folder|Downloads/CellProfiler/TilescanKuO
+    Saved file format:8-bit tiff
+    Do you want to save cropped images or object masks?:Images
+    Image:KUO
