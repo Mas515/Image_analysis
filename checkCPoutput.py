@@ -3,12 +3,22 @@ import os
 correct_file=[]
 missing_file=[]
 
+path_6='/rds/general/user/mas515/home/CP_MOVIE2/input2/6_/6_timepoint_split_drift_corrected_channel_split'               
+path6_2='/rds/general/user/mas515/home/CP_MOVIE2/input2/6_/6_timepoint_split_drift_corrected_channel_split4'
+path_7='/rds/general/user/mas515/home/CP_MOVIE2/input2/7_/7_KuO_output3'
+path_7_2='/rds/general/user/mas515/home/CP_MOVIE2/input2/7_/7_KuO_output4'
+path_10='/rds/general/user/mas515/home/CP_MOVIE2/input2/10_/10_split_tracked_concatenated_KuO_output'
+path_10_2='/rds/general/user/mas515/home/CP_MOVIE2/input2/10_/10_split_tracked_concatenated_KuO_output2'
+path_12='/rds/general/user/mas515/home/CP_MOVIE2/input2/12_/12_Ilastik_MK'
+path_12_2='/rds/general/user/mas515/home/CP_MOVIE2/input2/12_/12_Ilastik_MK2'
+
+
 #Checking differences between raw data for the first CP pipeline and the output of the first CP pipeline
-# filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/6_timepoint_split_drift_corrected_channel_split'
+# filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/6_'
 # for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs is all the name of the folder it finds, files will contain all the filenames it finds
 #     for file in files:               
 #         nfile=file+'f'
-#         if nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/7_KuO_output3'):
+#         if nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/7_'):
 #             correct_file.append(file)
 #         else:
 #             if 'Ch3' in nfile:
@@ -29,7 +39,7 @@ missing_file=[]
 #                 missing_file.append(file_init)     
 
 #Checking differences between raw data for the first CP pipeline and the tracked input and the Ilastik input
-filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/6_timepoint_split_drift_corrected_channel_split'
+filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/6_'
 for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs is all the name of the folder it finds, files will contain all the filenames it finds
     for file in files:        
         if file.endswith(".tif") and 'Ch1' in file:
@@ -44,7 +54,7 @@ for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs
         #     file_Ch8=file.replace(rep, '_Ch8_xyzCorrected.tiff - T=0.tif')
         #     nfile=file+'f'
 
-            if file_Ch5 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/12_Ilastik_MK') and file_Ch8 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/10_split_tracked_concatenated_KuO_output') and nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/7_KuO_output3'):
+            if file_Ch5 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/12_/12_Ilastik_MK') or file_Ch5 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/12_/12_Ilastik_MK2') and file_Ch8 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/10_/10_split_tracked_concatenated_KuO_output') or file_Ch8 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/10_/10_split_tracked_concatenated_KuO_output2') and nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/7_/7_KuO_output3')or nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/7_/7_KuO_output4'):
                 correct_file.append(file)
             else:
                 if 'Ch3' in file:
@@ -55,7 +65,7 @@ print('file_missing from downstream folders', missing_file)
 
 correct_file=[]
 missing_file=[]
-filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/12_Ilastik_MK'
+filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/12_'
 for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs is all the name of the folder it finds, files will contain all the filenames it finds
     for file in files:   
         if file.endswith(".tiff"):
@@ -71,7 +81,7 @@ for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs
         #     file_Ch3=file.replace(rep, '_Ch3_xyzCorrected.tif - T=0.tif')
         #     nfile=file_Ch3+'f'
 
-            if file_Ch8 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/10_split_tracked_concatenated_KuO_output') and file_Ch3 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/6_timepoint_split_drift_corrected_channel_split') and nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/7_KuO_output3'):
+            if file_Ch8 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/10_/10_split_tracked_concatenated_KuO_output') or file_Ch8 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/10_/10_split_tracked_concatenated_KuO_output2') and file_Ch3 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/6_/6_timepoint_split_drift_corrected_channel_split') or file_Ch3 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/6_/6_timepoint_split_drift_corrected_channel_split4') and nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/7_/7_KuO_output3')or nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/7_/7_KuO_output4'):
                 correct_file.append(file)
             else:
                 missing_file.append(file)
@@ -80,7 +90,7 @@ print('to be removed from folder 12', missing_file)
 
 correct_file=[]
 missing_file=[]
-filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/10_split_tracked_concatenated_KuO_output'
+filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/10_'
 for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs is all the name of the folder it finds, files will contain all the filenames it finds
     for file in files:
         if file.endswith(".tif"):
@@ -95,7 +105,7 @@ for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs
         #     file_Ch3=file.replace(rep, '_Ch3_xyzCorrected.tif - T=0.tif')
         #     nfile=file_Ch3+'f'
 
-            if file_Ch5 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/12_Ilastik_MK') and file_Ch3 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/6_timepoint_split_drift_corrected_channel_split') and nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/7_KuO_output3'):
+            if file_Ch5 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/12_/12_Ilastik_MK') or file_Ch5 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/12_/12_Ilastik_MK2') and file_Ch3 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/6_/6_timepoint_split_drift_corrected_channel_split') or file_Ch3 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/6_/6_timepoint_split_drift_corrected_channel_split4') and nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/7_/7_KuO_output3')or nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/7_/7_KuO_output4'):
                 correct_file.append(file)
             else:
                 missing_file.append(file)
@@ -104,7 +114,7 @@ print('to be removed from folder 10', missing_file)
 
 correct_file=[]
 missing_file=[]
-filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/7_KuO_output3'
+filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/7_'
 for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs is all the name of the folder it finds, files will contain all the filenames it finds
     for file in files:   
         if file.endswith(".tiff"):
@@ -119,24 +129,24 @@ for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs
         #     file_Ch3=file.replace(rep, '_Ch3_xyzCorrected.tif - T=0.tif')
         #     file_Ch8=file.replace(rep, '_Ch8_xyzCorrected.tiff - T=0.tif')
 
-            if file_Ch5 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/12_Ilastik_MK') and file_Ch3 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/6_timepoint_split_drift_corrected_channel_split') and file_Ch8 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/10_split_tracked_concatenated_KuO_output'):
+            if file_Ch5 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/12_/12_Ilastik_MK') or file_Ch5 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/12_/12_Ilastik_MK2') and file_Ch3 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/6_/6_timepoint_split_drift_corrected_channel_split') or file_Ch3 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/6_/6_timepoint_split_drift_corrected_channel_split4') and file_Ch8 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/10_/10_split_tracked_concatenated_KuO_output') or file_Ch8 in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/10_/10_split_tracked_concatenated_KuO_output2'):
                 correct_file.append(file)
             else:
                 missing_file.append(file)
 print('correct_file', correct_file)
 print('to be removed from folder 7', missing_file)
 
-correct_file=[]
-missing_file=[]
-filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/7_KuO_output3'
-for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs is all the name of the folder it finds, files will contain all the filenames it finds
-    for file in files:               
-        if file.endswith(".tiff"):
-            file_Ch8=file.replace(r'Ch3_xyzCorrected.tif','Ch8_xyzCorrected.tiff')
-            nfile=file_Ch8[:-1]
-            if nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/10_split_tracked_concatenated_KuO_output'):
-                correct_file.append(file)
-            else:
-                missing_file.append(file)
-print('correct_file', correct_file)
-print('to be removed from folder 6,7,12', missing_file)
+# correct_file=[]
+# missing_file=[]
+# filepath='/rds/general/user/mas515/home/CP_MOVIE2/input2/7_KuO_output3'
+# for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs is all the name of the folder it finds, files will contain all the filenames it finds
+#     for file in files:               
+#         if file.endswith(".tiff"):
+#             file_Ch8=file.replace(r'Ch3_xyzCorrected.tif','Ch8_xyzCorrected.tiff')
+#             nfile=file_Ch8[:-1]
+#             if nfile in os.listdir('/rds/general/user/mas515/home/CP_MOVIE2/input2/10_split_tracked_concatenated_KuO_output'):
+#                 correct_file.append(file)
+#             else:
+#                 missing_file.append(file)
+# print('correct_file', correct_file)
+# print('to be removed from folder 6,7,12', missing_file)
