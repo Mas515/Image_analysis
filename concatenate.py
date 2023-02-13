@@ -1,3 +1,9 @@
+#python script to concatenate tiff files of split timepoint movies
+#Author: M. Secchi with the help of N. Gogoberidze
+#Date: 2022-12-06
+
+#Lines 16 and 39 have to be edited to match the path of the folder containing the split movies and the path of the folder where the concatenated movies will be saved
+
 import os
 import natsort
 from natsort import natsorted
@@ -6,9 +12,8 @@ from skimage import io
 from tifffile import imwrite
 
 filename =[]
-
+#copy your path here
 filepath='/rds/general/user/mas515/home/CP/output_data_movie_test'
-#filepath='/Users/secchim/Downloads/CellProfiler/corrected_movies_movie_example/CP_output'
 for root, dirs, files in os.walk(filepath): # will open up all the folders, dirs is all the name of the folder it finds, files will contain all the filenames it finds
     for file in files:               
         if file.endswith(" - T=0.tiff"):
@@ -32,7 +37,6 @@ for movie_name, movie_timepoints in im_data_sequences:#because tuple : first ele
     # try:
     out_image = io.concatenate_images(movie_timepoints)
     imwrite(f'/rds/general/user/mas515/home/CP/concatenated_KuO_output/{movie_name}Ch8_xyzCorrected.tiff', out_image, imagej=True, metadata={'axes': 'TZYX'})
-    #/Users/secchim/Downloads/CellProfiler/movie_pipeline_test/8_concatenated_KuO_output
     print(f'did write movies/{movie_name}.tiff')
     # except:
         # print(f'failed to write movies/{movie_name}.tiff')

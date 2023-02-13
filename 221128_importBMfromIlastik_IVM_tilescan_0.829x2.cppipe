@@ -145,13 +145,13 @@ Threshold:[module_num:10|svn_version:'Unknown'|variable_revision_number:12|show_
     Threshold strategy:Global
     Thresholding method:Otsu
     Threshold smoothing scale:0
-    Threshold correction factor:0.8
+    Threshold correction factor:1
     Lower and upper bounds on threshold:0,1.0
     Manual threshold:0.0
     Select the measurement to threshold with:None
-    Two-class or three-class thresholding?:Two classes
+    Two-class or three-class thresholding?:Three classes
     Log transform before thresholding?:No
-    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Assign pixels in the middle intensity class to the foreground or the background?:Background
     Size of adaptive window:50
     Lower outlier fraction:0.05
     Upper outlier fraction:0.05
@@ -232,7 +232,7 @@ FilterObjects:[module_num:16|svn_version:'Unknown'|variable_revision_number:9|sh
     Name the objects removed by the filter:RemovedObjects
     Select the measurement to filter by:AreaShape_Volume
     Filter using a minimum measurement value?:Yes
-    Minimum value:50
+    Minimum value:200
     Filter using a maximum measurement value?:Yes
     Maximum value:2500
     Select the measurement to filter by:Intensity_UpperQuartileIntensity_ThresholdAutofluo
