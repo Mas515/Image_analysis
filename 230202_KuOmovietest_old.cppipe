@@ -114,7 +114,7 @@ ImageMath:[module_num:9|svn_version:'Unknown'|variable_revision_number:5|show_wi
     Measurement:
     Image or measurement?:Image
     Select the second image:GaussianFilterautofluo
-    Multiply the second image by:1.3
+    Multiply the second image by:1.4
     Measurement:
 
 HistogramEqualization:[module_num:10|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
@@ -134,8 +134,8 @@ Threshold:[module_num:11|svn_version:'Unknown'|variable_revision_number:12|show_
     Name the output image:ThresholdedKUO
     Threshold strategy:Global
     Thresholding method:Otsu
-    Threshold smoothing scale:1
-    Threshold correction factor:1.3
+    Threshold smoothing scale:2
+    Threshold correction factor:1.6
     Lower and upper bounds on threshold:0.00001,1.0
     Manual threshold:0.0
     Select the measurement to threshold with:None
@@ -181,8 +181,8 @@ Threshold:[module_num:14|svn_version:'Unknown'|variable_revision_number:12|show_
     Name the output image:ThresholdGFP
     Threshold strategy:Global
     Thresholding method:Otsu
-    Threshold smoothing scale:0.0
-    Threshold correction factor:1.
+    Threshold smoothing scale:1
+    Threshold correction factor:0.6
     Lower and upper bounds on threshold:0.00,1.0
     Manual threshold:0.0
     Select the measurement to threshold with:None
@@ -306,12 +306,12 @@ FilterObjects:[module_num:21|svn_version:'Unknown'|variable_revision_number:9|sh
     Filter using a minimum measurement value?:Yes
     Minimum value:350
     Filter using a maximum measurement value?:Yes
-    Maximum value:4000
+    Maximum value:4500
     Select the measurement to filter by:Intensity_UpperQuartileIntensity_ThresholdImageAutofluo
     Filter using a minimum measurement value?:No
     Minimum value:1
     Filter using a maximum measurement value?:Yes
-    Maximum value:1.0
+    Maximum value:0.95
     Select the measurement to filter by:AreaShape_BoundingBoxMaximum_X
     Filter using a minimum measurement value?:No
     Minimum value:0.0
@@ -371,7 +371,7 @@ OverlayOutlines:[module_num:24|svn_version:'Unknown'|variable_revision_number:4|
     Select outline color:#FFFA1E
     Select objects to display:RemovedObjectsSP
 
-Resize:[module_num:25|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+Resize:[module_num:25|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
     Select the input image:OrigOverlay
     Name the output image:ResizeOverlay
     Resizing method:Resize by specifying desired final dimensions
@@ -383,7 +383,7 @@ Resize:[module_num:25|svn_version:'Unknown'|variable_revision_number:4|show_wind
     Select the image with the desired dimensions:None
     Additional image count:0
 
-SaveImages:[module_num:26|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+SaveImages:[module_num:26|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
     Select the type of image to save:Image
     Select the image to save:ResizeOverlay
     Select method for constructing file names:From image filename
