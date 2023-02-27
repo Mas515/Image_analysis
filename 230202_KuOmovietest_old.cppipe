@@ -98,9 +98,9 @@ HistogramEqualization:[module_num:8|svn_version:'Unknown'|variable_revision_numb
     Do framewise calculation?:Yes
     Tile Size (Z):5
 
-ImageMath:[module_num:9|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:['raise power of results by 0.5', '', '1.2']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+ImageMath:[module_num:9|svn_version:'Unknown'|variable_revision_number:5|show_window:True|notes:['raise power of results by 0.5', '', '1.2']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Operation:Subtract
-    Raise the power of the result by:1
+    Raise the power of the result by:0.6
     Multiply the result by:1.0
     Add to result:0.0
     Set values less than 0 equal to 0?:Yes
@@ -237,7 +237,7 @@ Watershed:[module_num:16|svn_version:'Unknown'|variable_revision_number:3|show_w
     Maximum number of seeds:-1
     Structuring element for seed dilation:Ball,1
 
-Threshold:[module_num:17|svn_version:'Unknown'|variable_revision_number:12|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+Threshold:[module_num:17|svn_version:'Unknown'|variable_revision_number:12|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Select the input image:Autofluo
     Name the output image:ThresholdImageAutofluo
     Threshold strategy:Global
@@ -288,7 +288,7 @@ MeasureObjectIntensity:[module_num:20|svn_version:'Unknown'|variable_revision_nu
     Select images to measure:ThresholdImageAutofluo
     Select objects to measure:Watershed
 
-FilterObjects:[module_num:21|svn_version:'Unknown'|variable_revision_number:9|show_window:False|notes:['600', '', 'was 180', '', '2500 is volume for radius of 8.4 pixels, diam of 16pixels - changed to 4000 MIN 250']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+FilterObjects:[module_num:21|svn_version:'Unknown'|variable_revision_number:9|show_window:True|notes:['600', '', 'was 180', '', '2500 is volume for radius of 8.4 pixels, diam of 16pixels - changed to 4000 MIN 250']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Select the objects to filter:Watershed
     Name the output objects:FilterObjectsKUO
     Select the filtering mode:Measurements
@@ -351,9 +351,9 @@ FilterObjects:[module_num:23|svn_version:'Unknown'|variable_revision_number:9|sh
     Assign overlapping child to:Both parents
     Keep removed objects as a seperate set?:Yes
     Name the objects removed by the filter:RemovedObjectsSP
-    Select the measurement to filter by:Intensity_UpperQuartileIntensity_ImageAfterMathDP
+    Select the measurement to filter by:Intensity_MaxIntensity_ImageAfterMathDP
     Filter using a minimum measurement value?:Yes
-    Minimum value:0.7
+    Minimum value:1
     Filter using a maximum measurement value?:No
     Maximum value:1.0
 
@@ -383,9 +383,9 @@ Resize:[module_num:25|svn_version:'Unknown'|variable_revision_number:4|show_wind
     Select the image with the desired dimensions:None
     Additional image count:0
 
-SaveImages:[module_num:26|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+SaveImages:[module_num:26|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Select the type of image to save:Image
-    Select the image to save:ResizeOverlay
+    Select the image to save:OrigOverlay
     Select method for constructing file names:From image filename
     Select image name for file prefix:KUO
     Enter single file name:OrigBlue
