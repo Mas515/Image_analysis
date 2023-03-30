@@ -38,9 +38,9 @@ NamesAndTypes:[module_num:3|svn_version:'Unknown'|variable_revision_number:8|sho
     Single images count:0
     Maximum intensity:255.0
     Process as 3D?:Yes
-    Relative pixel spacing in X:1
-    Relative pixel spacing in Y:1
-    Relative pixel spacing in Z:1
+    Relative pixel spacing in X:0.487
+    Relative pixel spacing in Y:0.487
+    Relative pixel spacing in Z:3
     Select the rule criteria:and (file does contain "Ch1")
     Name to assign these images:GFP
     Name to assign these objects:Cell
@@ -98,9 +98,9 @@ HistogramEqualization:[module_num:8|svn_version:'Unknown'|variable_revision_numb
     Do framewise calculation?:Yes
     Tile Size (Z):5
 
-ImageMath:[module_num:9|svn_version:'Unknown'|variable_revision_number:5|show_window:True|notes:['raise power of results by 0.5', '', '1.2']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+ImageMath:[module_num:9|svn_version:'Unknown'|variable_revision_number:5|show_window:True|notes:['raise power of results by 0.5', '', '1.2', '']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Operation:Subtract
-    Raise the power of the result by:0.6
+    Raise the power of the result by:1
     Multiply the result by:1.0
     Add to result:0.0
     Set values less than 0 equal to 0?:Yes
@@ -176,7 +176,7 @@ RemoveHoles:[module_num:13|svn_version:'Unknown'|variable_revision_number:1|show
     Name the output image:RemoveHolesKUO
     Size of holes to fill:20
 
-Threshold:[module_num:14|svn_version:'Unknown'|variable_revision_number:12|show_window:False|notes:['Global Otsu 3 classes foreground 1.5']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+Threshold:[module_num:14|svn_version:'Unknown'|variable_revision_number:12|show_window:False|notes:['Global Otsu 3 classes foreground 1.5']|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
     Select the input image:HistogramEqualizationGFP
     Name the output image:ThresholdGFP
     Threshold strategy:Global
@@ -197,7 +197,7 @@ Threshold:[module_num:14|svn_version:'Unknown'|variable_revision_number:12|show_
     # of deviations:2.0
     Thresholding method:Minimum Cross-Entropy
 
-ImageMath:[module_num:15|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+ImageMath:[module_num:15|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
     Operation:Multiply
     Raise the power of the result by:1.0
     Multiply the result by:1.0
@@ -237,7 +237,7 @@ Watershed:[module_num:16|svn_version:'Unknown'|variable_revision_number:3|show_w
     Maximum number of seeds:-1
     Structuring element for seed dilation:Ball,1
 
-Threshold:[module_num:17|svn_version:'Unknown'|variable_revision_number:12|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+Threshold:[module_num:17|svn_version:'Unknown'|variable_revision_number:12|show_window:True|notes:['4 deviations']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Select the input image:Autofluo
     Name the output image:ThresholdImageAutofluo
     Threshold strategy:Global
@@ -255,7 +255,7 @@ Threshold:[module_num:17|svn_version:'Unknown'|variable_revision_number:12|show_
     Upper outlier fraction:0.05
     Averaging method:Mean
     Variance method:Standard deviation
-    # of deviations:4
+    # of deviations:5
     Thresholding method:Minimum Cross-Entropy
 
 Watershed:[module_num:18|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
@@ -288,7 +288,7 @@ MeasureObjectIntensity:[module_num:20|svn_version:'Unknown'|variable_revision_nu
     Select images to measure:ThresholdImageAutofluo
     Select objects to measure:Watershed
 
-FilterObjects:[module_num:21|svn_version:'Unknown'|variable_revision_number:9|show_window:True|notes:['600', '', 'was 180', '', '2500 is volume for radius of 8.4 pixels, diam of 16pixels - changed to 4000 MIN 250']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+FilterObjects:[module_num:21|svn_version:'Unknown'|variable_revision_number:9|show_window:True|notes:['min vol of 350/ min axis of 12', '', '600', '', 'was 180', '', '2500 is volume for radius of 8.4 pixels, diam of 16pixels - changed to 4000 MIN 250']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Select the objects to filter:Watershed
     Name the output objects:FilterObjectsKUO
     Select the filtering mode:Measurements
@@ -297,16 +297,16 @@ FilterObjects:[module_num:21|svn_version:'Unknown'|variable_revision_number:9|sh
     Select the location of the rules or classifier file:Elsewhere...|
     Rules or classifier file name:rules.txt
     Class number:1
-    Measurement count:6
+    Measurement count:8
     Additional object count:0
     Assign overlapping child to:Both parents
     Keep removed objects as a seperate set?:Yes
     Name the objects removed by the filter:RemovedObjectsAutofluo_size
     Select the measurement to filter by:AreaShape_Volume
     Filter using a minimum measurement value?:Yes
-    Minimum value:350
+    Minimum value:300
     Filter using a maximum measurement value?:Yes
-    Maximum value:4500
+    Maximum value:4300
     Select the measurement to filter by:Intensity_UpperQuartileIntensity_ThresholdImageAutofluo
     Filter using a minimum measurement value?:No
     Minimum value:1
@@ -332,12 +332,22 @@ FilterObjects:[module_num:21|svn_version:'Unknown'|variable_revision_number:9|sh
     Minimum value:15
     Filter using a maximum measurement value?:No
     Maximum value:1.0
+    Select the measurement to filter by:AreaShape_MinorAxisLength
+    Filter using a minimum measurement value?:Yes
+    Minimum value:10
+    Filter using a maximum measurement value?:No
+    Maximum value:14
+    Select the measurement to filter by:AreaShape_MajorAxisLength
+    Filter using a minimum measurement value?:No
+    Minimum value:0.0
+    Filter using a maximum measurement value?:Yes
+    Maximum value:35
 
-MeasureObjectIntensity:[module_num:22|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+MeasureObjectIntensity:[module_num:22|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
     Select images to measure:ImageAfterMathDP
     Select objects to measure:FilterObjectsKUO
 
-FilterObjects:[module_num:23|svn_version:'Unknown'|variable_revision_number:9|show_window:False|notes:['upper quartile intensity should be 25% min is 1 (vs 0.5) - middle ground of 0.7']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+FilterObjects:[module_num:23|svn_version:'Unknown'|variable_revision_number:9|show_window:True|notes:['upper quartile intensity should be 25% min is 1 (vs 0.5) - middle ground of 0.7']|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
     Select the objects to filter:FilterObjectsKUO
     Name the output objects:FilterObjectsDP
     Select the filtering mode:Measurements
@@ -357,7 +367,7 @@ FilterObjects:[module_num:23|svn_version:'Unknown'|variable_revision_number:9|sh
     Filter using a maximum measurement value?:No
     Maximum value:1.0
 
-OverlayOutlines:[module_num:24|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:True]
+OverlayOutlines:[module_num:24|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:True]
     Display outlines on a blank image?:No
     Select image on which to display outlines:ThresholdedKUO
     Name the output image:OrigOverlay
@@ -383,7 +393,7 @@ Resize:[module_num:25|svn_version:'Unknown'|variable_revision_number:4|show_wind
     Select the image with the desired dimensions:None
     Additional image count:0
 
-SaveImages:[module_num:26|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+SaveImages:[module_num:26|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
     Select the type of image to save:Image
     Select the image to save:OrigOverlay
     Select method for constructing file names:From image filename
@@ -403,7 +413,7 @@ SaveImages:[module_num:26|svn_version:'Unknown'|variable_revision_number:16|show
     How to save the series:T (Time)
     Save with lossless compression?:Yes
 
-ConvertObjectsToImage:[module_num:27|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+ConvertObjectsToImage:[module_num:27|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:True]
     Select the input objects:FilterObjectsKUO
     Name the output image:FilterKuoImage
     Select the color format:Binary (black & white)
